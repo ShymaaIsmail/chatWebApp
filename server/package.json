@@ -1,0 +1,28 @@
+{
+  "name": "chatwebtask",
+  "version": "1.0.0",
+  "description": "Modeso Web Chat App Task",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "Shymaa M. Ismail",
+  "license": "ISC",
+  "dependencies": {
+    "all": "0.0.0",
+    "array-unique": "^0.3.2",
+    "async": "^2.6.0",
+    "body-parser": "^1.18.2",
+    "dto": "0.0.1",
+    "express": "^4.16.2",
+    "grep": "^0.1.0",
+    "mongoose": "^5.0.6",
+    "mongoose-repository-pattern": "^1.0.0",
+    "socket.io": "^2.0.4",
+    "touch": "^3.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.15.1"
+  }
+}

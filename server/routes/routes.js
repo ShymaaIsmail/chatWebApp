@@ -45,3 +45,12 @@ module.exports = function(app) {
     .get(chatList.chat_details);
 
 };
+
+///////////////////////messagges routes/////////////////////////////////////////////////////////////
+
+  var chatList = require('../controllers/messageController');
+
+  // chats Routes
+  app.route('/messages')
+    .post(chatList.create_message);
+

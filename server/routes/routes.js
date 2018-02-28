@@ -50,13 +50,15 @@ module.exports = function(app) {
   app.route('/chats/chatDetails/:chatId/:loggedUserID')
     .get(chatList.chat_details);
 
-};
-
+    
 ///////////////////////messagges routes/////////////////////////////////////////////////////////////
 
-  var chatList = require('../controllers/messageController');
+  var messageList = require('../controllers/messageController');
 
   // chats Routes
   app.route('/messages')
-    .post(chatList.create_message);
+    .post(messageList.create_message);
 
+
+
+};

@@ -34,12 +34,7 @@ return chatRepo.add(new_chat).then(function(chat) {
 };
  
 ////////////////////getChatsByMemberUserID////////////////////////////////////////
-
-function filter_ids(event,contactUserID) {
-    return event._id == contactUserID;
-}
-
-
+ 
  function getChatsByMemberUserID(userID) {
   
 var chatDtos=[];
@@ -63,7 +58,7 @@ var chats=results[0];
 var users=results[1];
  
   //ToDo:Get LastMessage For Each Chat.
-  for (var i = chats.length - 1; i >= 0; i--) {
+  for (var i = 0; i <chats.length ; i++) {
    var chat= chats[i];
    var contactUserID=chat.members.filter(function(value){return value !==userID;});
    var user= users.filter(function(value){return value._id.toString() ==contactUserID; })[0];
@@ -75,21 +70,16 @@ var users=results[1];
 }
 //resolve msgs
 return Promise.all(arrMsgPromises).then(function(results){
-for (var i = results.length - 1; i >= 0; i--) {
+for (var i = 0; i <results.length ; i++) {
   var msg=results[i];
   var user=contactUsers[i];
+   var chat= chats[i];
   var obj = new dtos.chatDTO(chat, user, msg);
   chatDtos.push(obj); 
-
 }
- 
 return chatDtos;
-
 });
- 
 });
- 
-  
 };
 
 ///////////////////getContactList////////////////////////////////////////////

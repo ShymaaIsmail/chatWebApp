@@ -29,11 +29,16 @@
         GetChatByMemebrs: function (userID, otherContact) {
 
             var params = userID + "/" + otherContact;
-            debugger;
+
             return CRUDFactory.get("chats/GetChatByMemebrs", params).success(function (data, status, headers, config) {
                 return data;
             });
-        }
+        },
+        SendTextMessage: function (message) {
+            return CRUDFactory.add("messages", message).success(function (data, status, headers, config) {
+                return data;
+            });
+        },
 
     }
 }]);

@@ -180,7 +180,7 @@ body{
 	margin-left: 70px;
 	font-size: 12px;
 	background: #E8E8E8;
-	padding:5px 10px;
+	padding: 9px 10px;
 	border-radius: 5px 5px 5px 0px;
 	position: relative;
 }
@@ -207,13 +207,14 @@ body{
 	bottom: 30px;
 }
 .message ul li.msg-right .msg-desc{
+	/* height: auto; */
 	margin-right: 70px;
 	font-size: 12px;
 	background: rgb(71, 190, 135);
 	color: #f6faff;
-	padding:5px 10px;
-	border-radius: 5px 5px 5px 0px;
-	position: relative;
+	/* padding:5px 10px; */
+	/* border-radius: 5px 5px 5px 0px; */
+	/* position: relative; */
 }
 .message ul li.msg-right .msg-desc:before{
 	position: absolute;

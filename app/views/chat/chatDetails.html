@@ -3,7 +3,7 @@
         <ul ng-repeat="msg in ActiveChat.messages">
             <li class="msg-left" ng-class="setMessagePosition(msg.SenderID)">
                 <div class="msg-left-sub">
-                    <img ng-src="setDefaultMemebers(SenderID)">
+                    <img ng-src="{{setDefaultMemebers(msg.SenderID)}}">
                     <div class="msg-desc">
                         {{msg.Text}}
                         {{msg.AttachmentPath}}
@@ -20,8 +20,8 @@
                 <button class="btn"><i class="fa fa-paperclip"></i></button>
                 <input type="file" name="myfile" />
             </div>
-            <input type="text" name="" placeholder="type here...">
-            <button class="btn-send">Send</button>
+            <input type="text" name="TextMessage" ng-model="Message.Text" placeholder="type here...">
+            <button class="btn-send" ng-disabled="disableSendBtn" ng-click="SendTextMessage()">Send</button>
         </form>
     </div>
 </div>

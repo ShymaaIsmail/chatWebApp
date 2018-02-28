@@ -5,13 +5,26 @@ var Schema = mongoose.Schema;
 
 var messageSchema = new Schema({
    
-   chatID:String,
+   chatID:
+   {
+     type: String,
+   	required:'required chaat id'
+   },
 
-   SenderID:String,
+   SenderID:
+   {
+     type: String,
+   	required:'required chaat id'
+   },
 
-   Text:String, 
+   Text:{  
+   	type: String
 
-   AttachmentPath:String,
+   },
+
+   AttachmentPath:{  
+   	type: String
+   },
 
    IsSeen:{type:Boolean, default:false},
 

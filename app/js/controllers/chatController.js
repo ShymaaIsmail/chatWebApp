@@ -6,6 +6,8 @@
     $scope.ActiveChat = {};
     $scope.ChatList = [];
     $scope.ContactList = [];
+    $scope.Message = [];
+
 
     ///////////////////////////////////UI Helpers/////////////////////////////////////////////////////////////////////
 
@@ -20,9 +22,9 @@
 
     $scope.setDefaultMemebers = function (SenderID) {
         var currentUserId = $rootScope.currentUser._id;
-        var imgSrc = "./imgs/man03.png";
+        var imgSrc = "../imgs/man03.png";
         if (SenderID != currentUserId) {
-            imgSrc = "./imgs/man02.png";
+            imgSrc = "../imgs/man02.png";
         }
         return imgSrc;
     }
@@ -57,8 +59,7 @@
     $scope.getChatDetails = function (chatId) {
         var currentUserId = $rootScope.currentUser._id;
         return chatFactory.getChatDetails(chatId, currentUserId).then(function (data) {
-            debugger;
-
+             
             if (data.data) {
                 $scope.ActiveChat = data.data;
             } else {
@@ -75,6 +76,7 @@
             if (data.data.length > 0) {
                 $scope.ChatList = data.data;
                 $scope.ActiveChat = data.data[0];
+                $scope.getChatDetails($scope.ActiveChat.chatID);
             } else {
                 $scope.ChatList = [];
                 $scope.ActiveChat = {};
@@ -113,6 +115,16 @@
 
     }
 
+    $scope.SendTextMessage = function () {
+       
+        $scope.disableSendBtn = true;
+        var message = { SenderID: $rootScope.currentUser._id, chatID: $scope.ActiveChat.chatID, Text: $scope.Message.Text };
+        chatFactory.SendTextMessage(message).then(function (msg) {
+            $scope.ActiveChat.messages.push(msg.data);
+            $scope.disableSendBtn = false;
+            $scope.Message.Text = "";
+        });
+    }
     $scope.Initialize = function () {
         $rootScope.currentUser = $cookieStore.get('key');
 

@@ -20,7 +20,7 @@ server = http.createServer(app);
  db = require("./models/db.js") ;
 
  //body parser
- app.use(bodyParser.urlencoded({ extended: true }));
+ app.use(bodyParser.urlencoded({ extended: false }));
  app.use(bodyParser.json());
 
 //enable cors rigin request

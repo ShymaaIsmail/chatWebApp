@@ -18,7 +18,7 @@ return messageRepo.add(newMessage).then(function(msg) {
   function getLastChatMessage(chatId) {
   	 
 //categoryRepo.find({isActive: true}, "categoryName description", 10, 10, {categoryName: 1})
- return messageRepo.find({"chatID":chatId},null,null,1,{ Created_date: 1 }).then(function(msgs){
+ return messageRepo.find({"chatID":chatId},null,null,1,{ Created_date: -1 }).then(function(msgs){
  	 
     return msgs;
 });

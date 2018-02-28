@@ -1,36 +1,107 @@
-﻿angular.module('chatApp').controller('chatController', ['$rootScope', '$state', '$scope', 'userFactory', 'chatFactory', function ($rootScope, $state, $scope, userFactory,chatFactory) {
+﻿angular.module('chatApp').controller('chatController', ['$cookieStore', '$rootScope', '$state', '$scope', 'userFactory', 'chatFactory', function ($cookieStore,$rootScope, $state, $scope, userFactory, chatFactory) {
        
-    $scope.searchUser = function (keyWord) {
-        return userFactory.SearchUser(keyWord).then(function (data) {
-            $scope.users = data;
+    //memebers
+    $scope.search = [];
+    $scope.users = [];
+    $scope.ActiveChat = {};
+    $scope.ChatList = [];
+    $scope.ContactList = [];
+
+    ///////////////////////////////////UI Helpers/////////////////////////////////////////////////////////////////////
+
+    $scope.setMessagePosition = function (SenderID) {
+        var currentUserId = $rootScope.currentUser._id;
+        var ClassName = "msg-left";
+        if (SenderID != currentUserId) {
+            ClassName = "msg-right";
+        }
+        return ClassName;
+    }
+
+    $scope.setDefaultMemebers = function (SenderID) {
+        var currentUserId = $rootScope.currentUser._id;
+        var imgSrc = "./imgs/man03.png";
+        if (SenderID != currentUserId) {
+            imgSrc = "./imgs/man02.png";
+        }
+        return imgSrc;
+    }
+   
+
+
+    ///////////////////////////////////Events Handelers Function/////////////////////////////////////////////////////
+    $scope.searchUser = function () {
+        debugger;
+        return userFactory.SearchUser($scope.search.keyWord).then(function (data) {
+            if (data.data.length > 0) {
+                $scope.users = data.data;
+            } else {
+                $scope.users = [];
+            }
         });
     }
 
-    $scope.createChat = function (chatId) {
+    $scope.createChat = function (memberid) {
         var currentUserId = $rootScope.currentUser._id;
+        var chat = {members:[memberid,currentUserId]};
 
+        return chatFactory.createChat(chat).then(function (data) {
+            if (data.data.length > 0) {
+                $scope.ActiveChat = data.data;
+            } else {
+                $scope.ActiveChat = {};
+            }
+        });
     }
 
     $scope.getChatDetails = function (chatId) {
         var currentUserId = $rootScope.currentUser._id;
-
+        return chatFactory.getChatDetails(chat).then(function (data) {
+            if (data.data.length > 0) {
+                $scope.ActiveChat = data.data;
+            } else {
+                $scope.ActiveChat = {};
+            }
+        });
 
     }
 
     $scope.GetChats = function myfunction() {
+        debugger;
         var currentUserId = $rootScope.currentUser._id;
-
-
+        return chatFactory.GetUserChats(currentUserId).then(function (data) {
+            debugger;
+            if (data.data.length > 0) {
+                $scope.ChatList = data.data;
+                $scope.ActiveChat = data.data[0];
+            } else {
+                $scope.ChatList = [];
+                $scope.ActiveChat = {};
+            }
+        });
     }
 
 
     $scope.GetContacts = function myfunction() {
         var currentUserId = $rootScope.currentUser._id;
-
+        return chatFactory.GetContacts(currentUserId).then(function (data) {
+            if (data.data.length > 0) {
+                $scope.ContactList = data.data;
+            } else {
+                $scope.ContactList = [];
+            }
+        });
 
     }
 
+    $scope.Initialize = function () {
+        $rootScope.currentUser = $cookieStore.get('key');
 
+        $scope.GetChats();
+        $scope.GetContacts();
+    }
+    ///////////////////////////////Initilization/////////////////////////////////////////////////////
+    $scope.Initialize();
 
 
 }]);

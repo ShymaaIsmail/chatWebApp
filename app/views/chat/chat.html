@@ -24,9 +24,8 @@
         </div>
         <div class="headRight-section">
             <div class="headRight-sub">
-                <h3> <img src="./imgs/man03.png" class="mCS_img_loaded smallImage"> Lajy Ion</h3>
-                <small>Lorem ipsum dolor sit amet...</small>
-            </div>
+                <h3> <img src="./imgs/man02.png" class="mCS_img_loaded smallImage">Chat With {{ActiveChat.member.name}}</h3>
+             </div>
             <div class="headleft-icon-sub">
                 <button><i class="fa fa-gear"></i> </button>
             </div>
@@ -60,3 +59,15 @@
         
     </div>
 </div>
+<script>
+                     $(function () {
+                         $("input[name='tabs']").change(function () {
+                             debugger;
+                             $('.tabsContent section').css('display', 'none');
+
+                             $('#' + $(this).attr('data-link')).css('display', 'block');
+
+                         });
+                     });
+
+</script>

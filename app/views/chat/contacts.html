@@ -1,16 +1,17 @@
-﻿ <ul>
+﻿ <ul ng-repeat="contact in ContactList">
 
-    <li class="active">
+    <li>
         <div class="chatList">
             <div class="img">
                 <img src="./imgs/man03.png">
             </div>
             <div class="desc">
-                <small class="time">4 day</small>
-                <h5>Lajy Ion</h5>
-                <small>Lorem ipsum dolor sit amet...</small>
+                
+                <h5>{{contact.name}}</h5>
+                 
             </div>
         </div>
     </li>
 
+     <div ng-show="{{ContactList.length==0}}">No Recent Contacts</div>
 </ul>

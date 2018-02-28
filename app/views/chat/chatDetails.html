@@ -1,65 +1,17 @@
 ﻿ <div class="right-section">
     <div class="message mCustomScrollbar" data-mcs-theme="minimal-dark">
-        <ul>
-            <li class="msg-left">
+        <ul ng-repeat="msg in ActiveChat.messages">
+            <li class="msg-left" ng-class="setMessagePosition(msg.SenderID)">
                 <div class="msg-left-sub">
-                    <img src="./imgs/man03.png">
+                    <img ng-src="setDefaultMemebers(SenderID)">
                     <div class="msg-desc">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua.
+                        {{msg.Text}}
+                        {{msg.AttachmentPath}}
                     </div>
-                    <small>05:25 am</small>
+                    <small>{{msg.Created_date}}</small>
                 </div>
             </li>
-            <li class="msg-right">
-                <div class="msg-left-sub">
-                    <img src="./imgs/man04.png">
-                    <div class="msg-desc">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua.
-                    </div>
-                    <small>05:25 am</small>
-                </div>
-            </li>
-            <li class="msg-day"><small>Wednesday</small></li>
-            <li class="msg-left">
-                <div class="msg-left-sub">
-                    <img src="./imgs/man03.png">
-                    <div class="msg-desc">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit
-                    </div>
-                    <small>05:25 am</small>
-                </div>
-            </li>
-            <li class="msg-right">
-                <div class="msg-left-sub">
-                    <img src="./imgs/man04.png">
-                    <div class="msg-desc">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua.
-                    </div>
-                    <small>05:25 am</small>
-                </div>
-            </li>
-            <li class="msg-left">
-                <div class="msg-left-sub">
-                    <img src="./imgs/man03.png">
-                    <div class="msg-desc">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit
-                    </div>
-                    <small>05:25 am</small>
-                </div>
-            </li>
-            <li class="msg-right">
-                <div class="msg-left-sub">
-                    <img src="./imgs/man04.png">
-                    <div class="msg-desc">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua.
-                    </div>
-                    <small>05:25 am</small>
-                </div>
-            </li>
+            
         </ul>
     </div>
     <div class="right-section-bottom">

@@ -56,7 +56,8 @@ chatApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider
                         name: 'chatApp',
                         files: [
                             'js/controllers/chatController.js',
-                            'js/factories/chatFactory.js'
+                            'js/factories/chatFactory.js',
+                             'js/factories/userFactory.js',
                         ]
                     }]);
                 }]

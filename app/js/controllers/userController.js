@@ -12,7 +12,7 @@ function userController($scope, $rootScope, $location, userFactory,$cookieStore)
             userFactory.Login($scope.username, $scope.password).success(function (data, status, headers, config) {
                 debugger;
                 if (data.length > 0) {
-                    $cookieStore.put('key', data[0]._id);
+                    $cookieStore.put('key', data[0]);
                     $rootScope.currentUser = data[0];
                     window.location = "#/chat.html";
 
@@ -36,7 +36,7 @@ function userController($scope, $rootScope, $location, userFactory,$cookieStore)
         if ($scope.form.$valid) {
             userFactory.SignUp($scope.username, $scope.password, 'dummy').success(function (data, status, headers, config) {
                  if (data!=undefined) {
-                    $cookieStore.put('key', data._id);
+                    $cookieStore.put('key', data);
                     $rootScope.currentUser = data;
                     window.location = "#/chat.html";
 

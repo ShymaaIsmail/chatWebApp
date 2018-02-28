@@ -38,7 +38,7 @@ chatApp.run(["$rootScope",  "$state",  "$cookieStore", "$window", "$http",  func
     $rootScope.ValidateLoggedInUser = function(event, toState, toParams, fromState, fromParams) {
         //if not logged in
         if (!$cookieStore.get('key')) {
-            //window.location = "/views/login.html";
+             window.location = "#/login.html";
         }
     }
     

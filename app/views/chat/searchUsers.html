@@ -1,4 +1,5 @@
-﻿<ul>
+﻿<input type="text" ng-change="searchUser()" ng-model="search.keyWord" name="keyWord" />
+<ul ng-repeat="user in users">
 
     <li>
         <div class="chatList">
@@ -6,11 +7,10 @@
                 <img src="./imgs/man03.png">
             </div>
             <div class="desc">
-                <small class="time">4 day</small>
-                <h5>Lajy Ion</h5>
-                <small>Lorem ipsum dolor sit amet...</small>
-            </div>
+                 <h5>{{user.name}}</h5>
+             </div>
         </div>
     </li>
 
+    <div ng-show="{{users.length==0}}">No Recent Users</div>
 </ul>

@@ -21,7 +21,7 @@
                    
                     if (status === 401)
                     {
-                        window.location = "login.html";
+                        window.location = "#/login.html";
                     }
                     else if (status === 400)
                     {

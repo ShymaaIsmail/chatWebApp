@@ -1,9 +1,9 @@
-﻿chatApp.factory('chatFactory', ['$http', '$rootScope',  function ($http, $rootScope) {
+﻿angular.module('chatApp').factory('chatFactory', ['$http', '$rootScope', 'appConfigs', function ($http, $rootScope, appConfigs) {
     return {
         Login: function (username, password) {
             var result =
             $http({
-                url: initContext.get().apiBaseURL + 'token',
+                url: appConfigs.apiBaseURL + 'token',
                 method: 'POST',
                 data: "userName=" + username + "&password=" + password + "&grant_type=password"
             });

@@ -38,7 +38,7 @@ return userRepo.add(new_user).then(function(user) {
 
  function loginUser(user_to_login) {
    
-return userRepo.find({name: user_to_login.name, password:user_to_login.password}).then(function(loggedUser){
+return userRepo.find({name: user_to_login.name, password:user_to_login.password},null,null,1,null).then(function(loggedUser){
    
    return loggedUser;
 });

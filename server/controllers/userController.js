@@ -30,7 +30,7 @@ exports.create_a_user = function(req, res) {
   
 userService.createUser(new_user).then(function(user) {
   console.log(user._id); // Prints newly added useres' id.
-   res.json(user._id);
+   res.json(user);
 
 }).catch(function(err) {
   console.log(err.message);

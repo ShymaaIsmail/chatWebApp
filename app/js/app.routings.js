@@ -28,7 +28,7 @@ chatApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider
         })
 
         .state('signUp', {
-            url: "/signUp.html",
+            url: "/signup.html",
             templateUrl: "views/signUp.html",
             data: { pageTitle: 'signUp' },
             controller: "userController",

@@ -22,6 +22,7 @@ body{
 }
 .headLeft-section{
 	width: calc(30% - 1px);
+    /*height: calc(30% - 1px);*/
 	float: left;
 	border-right:1px solid #E6E6E6;
 }
@@ -288,14 +289,13 @@ body{
   opacity: 0;
 }
 .headleft-sub {
-       float: right;
+ 
     padding: 10px 15px 0px 15px;
-    margin: -36px;
-
+   
 }
 
 .smallImage{
-    height:20px;
+    height:30px;
 }
 /*tabs css*/
 
@@ -385,4 +385,10 @@ body{
   label {
     padding: 15px;
   }
+}
+
+.headleft-icon-sub {
+    float: right;
+    padding: 10px 15px 0px 15px;
+    margin: -36px;
 }

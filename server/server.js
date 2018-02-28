@@ -2,6 +2,9 @@ var express = require('express'),
  path = require("path");
 
   app = express(),
+
+    cors = require('cors'),
+
   port = process.env.PORT || 9080,
   
   bodyParser = require('body-parser'),
@@ -19,12 +22,17 @@ var express = require('express'),
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
 
+//enable cors rigin request
+ app.use(cors());
+
 
 console.log(__dirname);
 // static folder for images and attachments
 app.use(express.static(__dirname + '/uploads/chatAttachments/'));
 
 app.use(express.static( __dirname +'/uploads/profileImages/'));
+ 
+
 
 //Routes Registeration 
   routes(app); //register the route

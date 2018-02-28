@@ -1,6 +1,6 @@
-﻿ <ul ng-repeat="contact in ContactList">
+﻿ <ul >
 
-    <li>
+    <li ng-repeat="contact in ContactList" ng-click="StartChatWithUser(contact._id)">
         <div class="chatList">
             <div class="img">
                 <img src="./imgs/man03.png">
@@ -13,5 +13,6 @@
         </div>
     </li>
 
-     <div ng-show="{{ContactList.length==0}}">No Recent Contacts</div>
 </ul>
+
+<div ng-show="{{ContactList.length==0}}">No Recent Contacts</div>

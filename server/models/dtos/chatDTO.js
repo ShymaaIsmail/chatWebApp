@@ -16,6 +16,8 @@ function chatDetailDTO(chatModelObj,contactUserObj,arrMessages) {
    return obj;
 }
 
+ 
+
 
 
 module.exports={

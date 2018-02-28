@@ -30,6 +30,12 @@ module.exports = function(app) {
     .post(chatList.create_chat);
 
 
+  app.route('/chats/GetChatByMemebrs/:loggedInUser/:otherContact')
+     .get(chatList.create_get_chat);
+
+    
+
+
   app.route('/chats/userChats/:userId')
     .get(chatList.chats_by_memberUserID);
 

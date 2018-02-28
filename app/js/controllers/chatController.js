@@ -31,7 +31,7 @@
 
     ///////////////////////////////////Events Handelers Function/////////////////////////////////////////////////////
     $scope.searchUser = function () {
-        debugger;
+        
         return userFactory.SearchUser($scope.search.keyWord).then(function (data) {
             if (data.data.length > 0) {
                 $scope.users = data.data;
@@ -56,8 +56,10 @@
 
     $scope.getChatDetails = function (chatId) {
         var currentUserId = $rootScope.currentUser._id;
-        return chatFactory.getChatDetails(chat).then(function (data) {
-            if (data.data.length > 0) {
+        return chatFactory.getChatDetails(chatId, currentUserId).then(function (data) {
+            debugger;
+
+            if (data.data) {
                 $scope.ActiveChat = data.data;
             } else {
                 $scope.ActiveChat = {};
@@ -67,10 +69,9 @@
     }
 
     $scope.GetChats = function myfunction() {
-        debugger;
+        
         var currentUserId = $rootScope.currentUser._id;
         return chatFactory.GetUserChats(currentUserId).then(function (data) {
-            debugger;
             if (data.data.length > 0) {
                 $scope.ChatList = data.data;
                 $scope.ActiveChat = data.data[0];
@@ -91,6 +92,24 @@
                 $scope.ContactList = [];
             }
         });
+
+    }
+
+    $scope.StartChatWithUser = function (otherContact) {
+        var currentUserId = $rootScope.currentUser._id;
+        //get chat for these 2 users if exits, other wise creat it and get it too.
+        return chatFactory.GetChatByMemebrs(currentUserId, otherContact).then(function (data) {
+            if (data.data.length > 0) {
+                $scope.ActiveChat = data.data;
+            } else {
+                $scope.ActiveChat = {};
+            }
+
+            //jump on first tab
+
+            $("#tab1").click();
+        });
+
 
     }
 

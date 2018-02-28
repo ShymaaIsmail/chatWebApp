@@ -28,9 +28,9 @@ chatService.createChat(new_chat).then(function(chat){
   
 exports.chats_by_memberUserID = function(req, res) {
 
+var tt=chatService.getChatsByMemberUserID(req.params.userId);
 chatService.getChatsByMemberUserID(req.params.userId).then(function(chats){
-  console.log(chats); //Return all user entries 
-  res.json(chats);
+   res.json(chats);
 }).catch(function(err) {
   console.log(err.message);
 });
@@ -56,3 +56,21 @@ chatService.getChatDetails(req.params.chatId,req.params.loggedUserID).then(funct
 });
 
 };
+
+exports.create_get_chat=function(req,res) {
+
+var loggedInUser =  req.params.loggedInUser;
+
+var otherContact =  req.params.otherContact;
+
+var members=[otherContact,loggedInUser];
+
+  console.log('membersmembersmembersmembers'+members); 
+
+chatService.getCreateChatByMembers(members,loggedInUser).then(function(chat){
+  console.log(chat); //Return all user entries 
+  res.json(chat);
+}).catch(function(err) {
+  console.log(err.message);
+});
+ };

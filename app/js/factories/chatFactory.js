@@ -6,8 +6,10 @@
                 });
         },
 
-        getChatDetails: function (chatID) {
-            return CRUDFactory.get("chats", chatID).success(function (data, status, headers, config) {
+        getChatDetails: function (chatID, currentUserId) {
+
+            var params =chatID+"/"+ currentUserId;
+            return CRUDFactory.get("chats/chatDetails", params).success(function (data, status, headers, config) {
                 return data;
             });
         },
@@ -22,7 +24,17 @@
             return CRUDFactory.get("chats/contactList", userID).success(function (data, status, headers, config) {
                 return data;
             });
+        },
+
+        GetChatByMemebrs: function (userID, otherContact) {
+
+            var params = userID + "/" + otherContact;
+            debugger;
+            return CRUDFactory.get("chats/GetChatByMemebrs", params).success(function (data, status, headers, config) {
+                return data;
+            });
         }
+
     }
 }]);
 

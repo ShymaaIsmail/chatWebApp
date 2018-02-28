@@ -1,16 +1,17 @@
 ﻿<input type="text" ng-change="searchUser()" ng-model="search.keyWord" name="keyWord" />
-<ul ng-repeat="user in users">
+<ul >
 
-    <li>
+    <li ng-repeat="user in users" ng-click="StartChatWithUser(user._id)">
         <div class="chatList">
             <div class="img">
                 <img src="./imgs/man03.png">
             </div>
             <div class="desc">
-                 <h5>{{user.name}}</h5>
-             </div>
+                <h5>{{user.name}}</h5>
+            </div>
         </div>
     </li>
-
-    <div ng-show="{{users.length==0}}">No Recent Users</div>
 </ul>
+
+
+<div ng-show="{{users.length==0}}">No Recent Users</div>

@@ -10,7 +10,7 @@ function userController($scope, $rootScope, $location, userFactory,$cookieStore)
          
         if ($scope.form.$valid){
             userFactory.Login($scope.username, $scope.password).success(function (data, status, headers, config) {
-                debugger;
+                
                 if (data.length > 0) {
                     $cookieStore.put('key', data[0]);
                     $rootScope.currentUser = data[0];

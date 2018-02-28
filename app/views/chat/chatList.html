@@ -1,7 +1,7 @@
 ﻿ <div class="left-section mCustomScrollbar contacts-outter-wrapper tab-pane active" id="chats" data-mcs-theme="minimal-dark">
-    <ul ng-repeat="chat in ChatList">
+    <ul >
 
-        <li ng-class="{'active':chat._id==ActiveChat._id}">
+        <li ng-repeat="chat in ChatList" ng-click="getChatDetails(chat.chatID)" ng-class="{'active':chat.chatID==ActiveChat._id}">
             <div class="chatList">
                 <div class="img">
                     <i class="fa fa-circle"></i>
@@ -10,7 +10,7 @@
                 <div class="desc">
                     <small class="time">{{chat.lastMessage.Created_date}}</small>
                     <h5>{{chat.member.name}}</h5>
-                    <small>{{chat.lastMessage.Text}}</small>
+                    <small>{{chat.lastMessage[0].Text}}</small>
                 </div>
             </div>
         </li>

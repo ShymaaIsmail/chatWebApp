@@ -5,6 +5,8 @@ var async = require('async');
 
 const chat = require("../models/chatModel")
   
+
+var mongoose = require('mongoose');  
 var  repos = require("../Repositories/Repos.js") ;
 
 var chatRepo = repos.chatRepo;
@@ -32,29 +34,62 @@ return chatRepo.add(new_chat).then(function(chat) {
 };
  
 ////////////////////getChatsByMemberUserID////////////////////////////////////////
+
+function filter_ids(event,contactUserID) {
+    return event._id == contactUserID;
+}
+
+
  function getChatsByMemberUserID(userID) {
+  
+var chatDtos=[];
+var contactUsers=[];
+var arrPromises=[];
+var arrMsgPromises=[];
+
+ var chatsPromise=chatRepo.find({"members":{ $in : [userID] }}).then(function(chats){
+  return chats;
+ });
+var promiseUsers=userRepo.find({}).then(function(users){
+    return users;
+});
+arrPromises.push(chatsPromise);
+arrPromises.push(promiseUsers);
+
+return Promise.all(arrPromises).then(function(results){
+
+var chats=results[0];
+
+var users=results[1];
  
- return chatRepo.find({"members":userID}).then(function(chats){
- var chatDtos=[];
   //ToDo:Get LastMessage For Each Chat.
   for (var i = chats.length - 1; i >= 0; i--) {
    var chat= chats[i];
    var contactUserID=chat.members.filter(function(value){return value !==userID;});
+   var user= users.filter(function(value){return value._id.toString() ==contactUserID; })[0];
 
-   return messageService.getLastChatMessage(chat._id).then(function(msg){
-   return userRepo.findByID(userID).then(function(user) {
- 
-   var obj = new dtos.chatDTO(chat, user, msg);
-   
-   chatDtos.push(obj);  
-   return chatDtos;
+   contactUsers.push(user);
+   var lastMsgPromise=  messageService.getLastChatMessage(chat._id);
 
-    });
- });
+   arrMsgPromises.push(lastMsgPromise);
+}
+//resolve msgs
+return Promise.all(arrMsgPromises).then(function(results){
+for (var i = results.length - 1; i >= 0; i--) {
+  var msg=results[i];
+  var user=contactUsers[i];
+  var obj = new dtos.chatDTO(chat, user, msg);
+  chatDtos.push(obj); 
+
 }
  
-});
+return chatDtos;
 
+});
+ 
+});
+ 
+  
 };
 
 ///////////////////getContactList////////////////////////////////////////////
@@ -117,7 +152,51 @@ return  chatRepo.findByID(chatId).then(function(chat) {
 
 
 
+ ////////////////////getCreateChatByMembers //////////////////////////////////
+function getCreateChatByMembers(arrMemebers,loggedInUser){
+
+
+  console.log('arrMemebersarrMemebersarrMemebersarrMemebers:  '+ arrMemebers);
+ return chatRepo.find({"members":{ $in: [arrMemebers] } },null,null,1,null).then(function(ExistedChat){
+   console.log('ExistedChat:  '+ ExistedChat);
+  if(ExistedChat!="")//existed chat
+ {
+     
+  console.log('ExistedChat:  '+ ExistedChat);
+   return  getChatDetails(ExistedChat._id,loggedInUser).then(function(detail){
+
+return detail;
+
+   });
+    
+
+ } else{//cretae chat
+var new_chat=new chat();
+new_chat.members=arrMemebers;
+
+  console.log('new_chat:  '+ new_chat);
+ return createChat(new_chat).then(function(newChat){
  
+  console.log('newChat:  '+ newChat);
+
+
+ return  getChatDetails(newChat._id,loggedInUser).then(function(detail){
+
+return detail;
+
+   });
+
+
+ });
+
+
+   
+ };
+});
+};
+
+
+
 
 module.exports={
 
@@ -129,6 +208,8 @@ getChatsByMemberUserID: function(userId){ return getChatsByMemberUserID(userId);
 
 getContactList: function(userId){ return getContactList(userId);},
 
-getChatDetails: function(chatId,loggedUserID){ return getChatDetails(chatId,loggedUserID);}
+getChatDetails: function(chatId,loggedUserID){ return getChatDetails(chatId,loggedUserID);},
+
+getCreateChatByMembers: function(arrMemebers,loggedInUser){return getCreateChatByMembers(arrMemebers,loggedInUser);}
 
 }

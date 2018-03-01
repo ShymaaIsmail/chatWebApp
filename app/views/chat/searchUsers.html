@@ -1,4 +1,10 @@
-﻿<input type="text" ng-change="searchUser()" ng-model="search.keyWord" name="keyWord" />
+﻿
+<div class="headLeft-sub">
+    <input type="text"   placeholder="Search..."
+            ng-model="search.keyWord" name="keyWord" />
+
+    <button ng-click="searchUser()"> <i class="fa fa-search"></i> </button>
+</div>
 <ul >
 
     <li ng-repeat="user in users" ng-click="StartChatWithUser(user._id)">

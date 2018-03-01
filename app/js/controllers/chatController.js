@@ -101,12 +101,12 @@
         var currentUserId = $rootScope.currentUser._id;
         //get chat for these 2 users if exits, other wise creat it and get it too.
         return chatFactory.GetChatByMemebrs(currentUserId, otherContact).then(function (data) {
-            if (data.data.length > 0) {
+            if (data.data) {
                 $scope.ActiveChat = data.data;
             } else {
                 $scope.ActiveChat = {};
             }
-
+            console.log($scope.ActiveChat);
             //jump on first tab
 
             $("#tab1").click();

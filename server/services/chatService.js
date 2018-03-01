@@ -20,7 +20,7 @@ var  messageService = require("./messageService.js") ;
  
 ////////////////////createChat///////////////////////////////////////////////
 function createChat(new_chat) {
-  
+new_chat.members=new_chat.members.sort();
 return chatRepo.add(new_chat).then(function(chat) {
    return chat;
 });
@@ -120,6 +120,8 @@ return chatDtos;
 
 ///////////////////returns (ListOfMessages and Memebr User Object) ///////////////////////////////////////////////
   function getChatDetails(chatId,loggedUserID) {
+
+    console.log('chatIdchatIdchatIdchatIdchatIdchatIdchatId '+ chatId);
 return  chatRepo.findByID(chatId).then(function(chat) {
    var chatDetails={};
  var contactUserID=chat.members.filter(function(value){ return value !==loggedUserID;});
@@ -145,15 +147,14 @@ return  chatRepo.findByID(chatId).then(function(chat) {
  ////////////////////getCreateChatByMembers //////////////////////////////////
 function getCreateChatByMembers(arrMemebers,loggedInUser){
 
-
+ arrMemebers=arrMemebers.sort();
+ 
   console.log('arrMemebersarrMemebersarrMemebersarrMemebers:  '+ arrMemebers);
- return chatRepo.find({"members":{ $in: [arrMemebers] } },null,null,1,null).then(function(ExistedChat){
-   console.log('ExistedChat:  '+ ExistedChat);
-  if(ExistedChat!="")//existed chat
+ return chatRepo.find({"members":arrMemebers  },null,null,1,null).then(function(existedChat){
+   if(existedChat!="")//existed chat
  {
-     
-  console.log('ExistedChat:  '+ ExistedChat);
-   return  getChatDetails(ExistedChat._id,loggedInUser).then(function(detail){
+      
+   return  getChatDetails(existedChat[0]._id ,loggedInUser).then(function(detail){
 
 return detail;
 

@@ -20,7 +20,10 @@
     </div>
     <div class="right-section-bottom">
         <form>
+            <label style="color:green;" ng-show="attachmet.file != null">Click Send To Upload File: {{attachmet.file.name}}.</label>
+
             <div class="upload-btn">
+
                 <button class="btn"><i class="fa fa-paperclip"></i></button>
 
                 <input type="file"
@@ -30,7 +33,7 @@
              </div>
             <input type="text" name="TextMessage" ng-model="Message.Text" placeholder="type here...">
             <button class="btn-send" ng-disabled="disableSendBtn" ng-click="SendTextMessage()">Send</button>
-            <label style="color:red;" ng-show="!validMessage">Please write any Text or pload Attachmen to contact your friend Effectively.</label>
+            <label style="color:red;" ng-show="!validMessage">Please write any Text or upload Attachment to contact your friend Effectively.</label>
         </form>
     </div>
 </div>

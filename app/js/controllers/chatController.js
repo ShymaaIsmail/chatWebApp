@@ -86,16 +86,15 @@
 
     }
 
-    $scope.GetChats = function myfunction() {
+    $scope.GetChats = function myfunction(IsActivate) {
         
         var currentUserId = $rootScope.currentUser._id;
         return chatFactory.GetUserChats(currentUserId).then(function (data) {
             if (data.data.length > 0) {
                 $scope.ChatList = data.data;
-                $scope.ActiveChat = data.data[0];
-                $scope.getChatDetails($scope.ActiveChat.chatID);
-
-                SocketService.emit('chat', { chatId: $scope.ActiveChat.chatID });
+                if (IsActivate == true) {
+                    $scope.ActivateChat(data.data[0]);
+                }
 
             } else {
                 $scope.ChatList = [];
@@ -117,16 +116,19 @@
 
     }
 
+    $scope.ActivateChat = function (chat) {
+        $scope.ActiveChat = chat;
+        $scope.getChatDetails($scope.ActiveChat.chatID);
+        SocketService.emit('chat', { chatId: $scope.ActiveChat.chatID });
+    }
+
     $scope.StartChatWithUser = function (otherContact) {
         var currentUserId = $rootScope.currentUser._id;
         //get chat for these 2 users if exits, other wise creat it and get it too.
         return chatFactory.GetChatByMemebrs(currentUserId, otherContact).then(function (data) {
             if (data.data) {
-                 $scope.GetChats();
-                $scope.ActiveChat = data.data;
-
-                SocketService.emit('chat', { chatId: $scope.ActiveChat.chatID });
-
+                $scope.GetChats(false);
+                $scope.ActivateChat( data.data);
             } else {
                 $scope.ActiveChat = {};
             }
@@ -169,8 +171,8 @@
     }
 
     $scope.IsValidMessage = function () {
-
-        return ($scope.AttachmentPath !=undefined&& $scope.AttachmentPath.length > 0) || ($scope.Message.Text != undefined && $scope.Message.Text.length > 0);
+        debugger;
+        return ($scope.attachmet.file) || ($scope.AttachmentPath != undefined && $scope.AttachmentPath.length > 0) || ($scope.Message.Text != undefined && $scope.Message.Text.length > 0);
     }
     ////////////////////////////////File Upload Section/////////////////////////////////////////////////////////////////////////////////
     $scope.UploadAttachment = function () {  
@@ -191,7 +193,7 @@
     $scope.Initialize = function () {
         $rootScope.currentUser = $cookieStore.get('key');
 
-        $scope.GetChats();
+        $scope.GetChats(true);
         $scope.GetContacts();
 
      

@@ -9,7 +9,7 @@
                     <img ng-src="{{setDefaultMemebers(msg.SenderID)}}">
                     <div class="msg-desc">
                         {{msg.Text}}
-                        <a target="_blank"   href="{{serverUrl}}{{msg.AttachmentPath}}">{{serverUrl}}{{msg.AttachmentPath}}</a>
+                        <a  ng-hide="msg.AttachmentPath ==undefined ||msg.AttachmentPath ==''" target="_blank"   href="{{serverUrl}}{{msg.AttachmentPath}}">{{serverUrl}}{{msg.AttachmentPath}}</a>
                     
                     </div>
                     <small>{{msg.Created_date  | date:'medium'}}</small>

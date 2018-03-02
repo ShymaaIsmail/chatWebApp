@@ -34,10 +34,11 @@ var clientUrl="http://localhost:32772";
         next();
     });
 
-//////////////////////////////// static folder for images and attachments//////////////////////////
- app.use(express.static('./uploads/chatAttachments/'));
- app.use(express.static('./uploads/profileImages/'));
+//////////////////////////////// =static folder for images and attachments//////////////////////////
+ app.use('/uploads/chatAttachments',express.static(__dirname+'/uploads/chatAttachments'));
+ app.use('/uploads/profileImages',express.static(__dirname+'/uploads/profileImages'));
  app.use(express.static('../app'));
+app.use('/uploads',express.static(__dirname + '/uploads'));
 
  ////////////////////////////////Body parser///////////////////////////////////////////////////////////////////////////////////////////////////////
  app.use(bodyParser.urlencoded({ extended: false }));
@@ -91,38 +92,6 @@ io.on('connection', function(client) {
                client.in(data.chatId).emit('message', data.data);
     })
 });
-
-// if (require.main === module) {
-//   //Comment this app.start line and add following lines
-//   //app.start();
-//   app.io = require('socket.io').listen(server);
-//   require('socketio-auth')(app.io, {
-//     authenticate: function (socket, value, callback) {
-
-//         var AccessToken = app.models.AccessToken;
-//         //get credentials sent by the client
-//         var token = AccessToken.find({
-//           where:{
-//             and: [{ userId: value.userId }, { id: value.id }]
-//           }
-//         }, function(err, tokenDetail){
-//           if (err) throw err;
-//           if(tokenDetail.length){
-//             callback(null, true);
-//           } else {
-//             callback(null, false);
-//           }
-//         }); //find function..    
-//       } //authenticate function..
-//   });
-
-//   app.io.on('connection', function(socket){
-//     console.log('a user connected');
-//     socket.on('disconnect', function(){
-//         console.log('user disconnected');
-//     });
-//   });
-// }
 
 //////////////////////////////////End Socket IO Registeration////////////////////////////////////////////////////////////////////////////////////
 

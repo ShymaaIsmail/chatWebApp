@@ -1,0 +1,84 @@
+# chatWebApp
+
+                                        Modeso Assignment
+                                        Developed by: Shymaa M. Ismail
+1-Used Technologies and Patterns:
+
+•	RestFul APIs Using Node js and mongo db.
+•	Angular Js, Html and Css for Front End.
+•	Socket.i.o for real time feature.
+•	Repository pattern for db queries.
+•	MVC For Code Structure and encapsulate login in service layer..
+•	PostMan For Testing APIs , you can find the collection in this link:
+  https://www.getpostman.com/collections/1a09ef5fdd0b9e81b0ee
+•	Back End Libraries like (express js, multur,mongoose,socket.i.o).
+
+
+2-GitHub Link:
+-you can find the source code on this link:  https://github.com/ShymaaIsmail/chatWebApp
+
+3-Refrences:
+
+
+BackEnd References:
+1-https://www.codementor.io/olatundegaruba/nodejs-restful-apis-in-10-minutes-q0sgsfhbd
+2- https://medium.freecodecamp.org/building-a-chat-application-with-mean-stack-637254d1136d
+3-https://stackoverflow.com/questions/34690356/folder-structure-for-angular-js-and-node-js-app
+4-https://scotch.io/tutorials/node-and-angular-to-do-app-application-organization-and-structure#application-structure
+5-https://strongloop.com/strongblog/modular-node-js-express/
+6-https://github.com/strongloop-community/express-example-modular
+7-https://www.npmjs.com/package/mongoose-repository-pattern
+8-https://martinfowler.com/eaaCatalog/repository.html
+9-https://www.callicoder.com/node-js-express-mongodb-restful-crud-api-tutorial/
+10-https://stackoverflow.com/questions/10615182/repository-like-pattern-with-node-and-mongoose
+11-https://www.npmjs.com/package/mongoose-repository-pattern
+12-https://www.sitepoint.com/understanding-module-exports-exports-node-js/
+14-https://stackoverflow.com/questions/3305561/how-to-query-mongodb-with-like
+15-https://stackoverflow.com/questions/33568979/mongoose-schema-field-names-and-types-with-subdocs
+16-https://stackoverflow.com/questions/27046456/how-to-fetch-images-from-node-js-servers-folder-in-url
+17-https://npm.runkit.com/mongoose-repository-pattern
+18-https://www.npmjs.com/package/dto
+19-https://docs.mongodb.com/ecosystem/use-cases/storing-comments/
+20-http://khainx.com/project-typescript-nodejs-mongodb-part-2/
+RealTime Refrences:
+1-https://loopback.io/doc/en/lb3/Realtime-socket-io.html#writing-publish-and-subscribe-module
+2-https://stackoverflow.com/questions/25000275/socket-io-error-hooking-into-express-js
+3-https://github.com/felixrieseberg/windows-build-tools
+4-https://stackoverflow.com/questions/27393705/socketio-get-http-localhost3000-socket-io-eio-3transport-pollingt-1418187
+5-Main Refrence: https://scotch.io/@gitedy/simple-socketio-using-node-js-and-angular-js
+Front End Refrences:
+1-http://nicesnippets.com/live/message-chat-system-template-design-using-html-css-demo.html
+2-http://angularjs.chat/tutorials/angularjs-basic-chat-module/
+3-https://bootdey.com/snippets/view/messages-chat-with-tabs#html
+4-https://codepen.io/anon/pen/QQJeYm
+5-http://astronautweb.co/snippet/font-awesome/
+6-https://scotch.io/tutorials/angular-routing-using-ui-router
+7-http://jasonwatmore.com/post/2015/03/10/angularjs-user-registration-and-login-example-tutorial
+8-https://ciphertrick.com/2015/12/07/file-upload-with-angularjs-and-nodejs/
+9- File Upload:
+https://ciphertrick.com/2015/12/07/file-upload-with-angularjs-and-nodejs/
+10- File Upload:
+https://github.com/rahil471/file-upload-with-angularjs-and-nodejs
+11-https://stackoverflow.com/questions/9983031/expressjs-not-recognizing-static-files
+12-scoll:
+http://plnkr.co/edit/wxTyp7PpyxJOHSlUumVC?p=preview
+13-scroll:
+https://stackoverflow.com/questions/9707397/making-a-div-vertically-scrollable-using-css
+14-Notification Design: http://bootstrap-notify.remabledesigns.com/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

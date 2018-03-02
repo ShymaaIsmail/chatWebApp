@@ -1,9 +1,9 @@
 ﻿ <div class="right-section">
-    <div class="message "  style="overflow-y: scroll; height:400px;" scroll-glue-bottom>
+    <div class="message containerScroll"  style="overflow-y: scroll; height:400px;" scroll-glue-bottom>
 
        
 
-        <ul>
+        <ul id="scrollableDiv">
             <li ng-repeat="msg in ActiveChat.messages" class="msg-left" ng-class="setMessagePosition(msg.SenderID)">
                 <div class="msg-left-sub">
                     <img ng-src="{{setDefaultMemebers(msg.SenderID)}}">

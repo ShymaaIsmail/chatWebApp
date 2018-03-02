@@ -35,6 +35,10 @@
         return imgSrc;
     }
    
+    $scope.ScrollDown = function () {
+        $('.containerScroll').animate({ scrollTop: $('.containerScroll').height() * 1000 }, 800);
+
+    }
 
 
     ///////////////////////////////////Events Handelers Function/////////////////////////////////////////////////////
@@ -72,7 +76,7 @@
              
             if (data.data) {
                 $scope.ActiveChat = data.data;
-
+                $scope.ScrollDown();
                 SocketService.emit('chat', { chatId: $scope.ActiveChat.chatID });
 
             } else {
@@ -154,7 +158,8 @@
         return chatFactory.SendTextMessage(message).then(function (msg) {
              SocketService.emit('toBackEnd', { chatId: $scope.ActiveChat.chatID, data: msg.data, date: new Date() })
 
-            $scope.ActiveChat.messages.push(msg.data);
+             $scope.ActiveChat.messages.push(msg.data);
+             $scope.ScrollDown();
             $scope.disableSendBtn = false;
             $scope.Message.Text = "";
             $scope.AttachmentPath = "";
@@ -198,6 +203,8 @@
         debugger;
         if ($scope.ActiveChat.chatID == msg.chatID) {
             $scope.ActiveChat.messages.push(msg);
+            $scope.ScrollDown();
+
             $scope.NotificationMessage = null;
         } else {
           return  userFactory.GetUser(msg.SenderID).then(function (user) {

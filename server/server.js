@@ -80,14 +80,15 @@ io.on('connection', function(client) {
     client.on('disconnect', function() {
     console.log("disconnected")
     });
-    client.on('room', function(data) {
-        client.join(data.roomId);
+    client.on('chat', function(data) {
+      console.log('chat is '+data.chatId);
+        client.join(data.chatId);
         console.log(' Client joined the room and client id is '+ client.id);
 
     });
     client.on('toBackEnd', function(data) {
       console.log('messsage'+data.data);
-               client.in(data.roomId).emit('message', data);
+               client.in(data.chatId).emit('message', data);
     })
 });
 

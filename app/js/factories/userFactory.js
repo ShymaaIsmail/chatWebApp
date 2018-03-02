@@ -22,6 +22,12 @@
             return CRUDFactory.get("users/search", keyWord).success(function (data, status, headers, config) {
                 return data;
             });
+        },
+
+        GetUser: function (userId) {
+            return CRUDFactory.get("users", userId).success(function (data, status, headers, config) {
+                return data;
+            });
         }
     }
 }]);

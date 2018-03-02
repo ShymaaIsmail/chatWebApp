@@ -1,5 +1,5 @@
 ﻿ <div class="right-section">
-    <div class="message mCustomScrollbar" data-mcs-theme="minimal-dark">
+    <div class="message "  style="overflow-y: scroll; height:400px;" scroll-glue-bottom>
 
        
 
@@ -12,7 +12,7 @@
                         <a target="_blank"   href="{{serverUrl}}{{msg.AttachmentPath}}">{{serverUrl}}{{msg.AttachmentPath}}</a>
                     
                     </div>
-                    <small>{{msg.Created_date}}</small>
+                    <small>{{msg.Created_date  | date:'medium'}}</small>
                 </div>
             </li>
             

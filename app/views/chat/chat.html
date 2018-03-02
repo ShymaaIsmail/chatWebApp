@@ -1,6 +1,7 @@
 ﻿<label>Welcome : {{currentUser.name}}</label>
-
+<div class="alert alert-info NotificationMessage "  ng-hide="NotificationMessage ==null" ng-include="'views/chat/newMessageNotification.html'"></div>
 <div class="main-section">
+
     <div class="head-section">
         <div class="headLeft-section">
             <div class="headLeft-sub">
@@ -8,13 +9,13 @@
 
                     <div class="tabsWrapper">
 
-                        <input id="tab1" type="radio" name="tabs" data-link="content1" checked>
+                        <input id="tab1" type="radio" name="tabs" data-link="chatsTab" checked>
                         <label for="tab1"></label>
 
-                        <input id="tab2" type="radio" name="tabs" data-link="content2">
+                        <input id="tab2" type="radio" name="tabs" data-link="contactsTab">
                         <label for="tab2"></label>
 
-                        <input id="tab3" type="radio" name="tabs" data-link="content3">
+                        <input id="tab3" type="radio" name="tabs" data-link="searchTab">
                         <label for="tab3"></label>
 
 
@@ -32,20 +33,20 @@
         </div>
     </div>
     <div class="body-section tabsContent">
-        <section id="content1" style="display:block !important;">
+        <section id="chatsTab" style="display:block !important;">
             
             <div data-ng-include="'views/chat/chatList.html'"></div>
 
         </section>
 
-        <section id="content2" class="left-section mCustomScrollbar contacts-outter-wrapper tab-pane " data-mcs-theme="minimal-dark">
+        <section id="contactsTab" class="left-section mCustomScrollbar contacts-outter-wrapper tab-pane " data-mcs-theme="minimal-dark">
 
 
             <div data-ng-include="'views/chat/contacts.html'"></div>
         </section>
 
 
-        <section id="content3" class="left-section mCustomScrollbar contacts-outter-wrapper tab-pane " data-mcs-theme="minimal-dark">
+        <section id="searchTab" class="left-section mCustomScrollbar contacts-outter-wrapper tab-pane " data-mcs-theme="minimal-dark">
 
             <div data-ng-include="'views/chat/searchUsers.html'"></div>
 

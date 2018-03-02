@@ -386,9 +386,9 @@
 
 
 
-#tab1:checked .tabsContent#content1,
-#tab2:checked  .tabsContent#content2,
-#tab3:checked  .tabsContent#content3 {
+#tab1:checked .tabsContent#chatsTab,
+#tab2:checked  .tabsContent#contactsTab,
+#tab3:checked  .tabsContent#searchTab {
   display: block;
 }
 
@@ -419,13 +419,13 @@
 
                         <div class="tabsWrapper">
 
-                            <input id="tab1" type="radio" name="tabs" data-link="content1" checked>
+                            <input id="tab1" type="radio" name="tabs" data-link="chatsTab" checked>
                             <label for="tab1"></label>
 
-                            <input id="tab2" type="radio" name="tabs"  data-link="content2" >
+                            <input id="tab2" type="radio" name="tabs"  data-link="contactsTab" >
                             <label for="tab2"></label>
 
-                            <input id="tab3" type="radio" name="tabs"  data-link="content3" >
+                            <input id="tab3" type="radio" name="tabs"  data-link="searchTab" >
                             <label for="tab3"></label>
 
                            
@@ -444,7 +444,7 @@
 			</div>
 		</div>
 		<div class="body-section tabsContent">
-            <section id="content1" style="display:block !important;">
+            <section id="chatsTab" style="display:block !important;">
                 <div class="left-section mCustomScrollbar contacts-outter-wrapper tab-pane active"  id="chats" data-mcs-theme="minimal-dark">
                     <ul>
 
@@ -550,7 +550,7 @@
                 </div>
             </section>
 
-            <section id="content2"  class="left-section mCustomScrollbar contacts-outter-wrapper tab-pane " data-mcs-theme="minimal-dark">
+            <section id="contactsTab"  class="left-section mCustomScrollbar contacts-outter-wrapper tab-pane " data-mcs-theme="minimal-dark">
                  
                     <ul>
                          
@@ -572,7 +572,7 @@
             </section>
 
 
-            <section id="content3"  class="left-section mCustomScrollbar contacts-outter-wrapper tab-pane " data-mcs-theme="minimal-dark">
+            <section id="searchTab"  class="left-section mCustomScrollbar contacts-outter-wrapper tab-pane " data-mcs-theme="minimal-dark">
 
                 <ul>
 

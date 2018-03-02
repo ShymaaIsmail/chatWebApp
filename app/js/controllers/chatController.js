@@ -1,4 +1,8 @@
-﻿angular.module('chatApp').controller('chatController', ['$cookieStore', '$rootScope', '$state', '$scope', 'userFactory', 'chatFactory', 'UploadFactory', 'appConfigs', '$timeout', function ($cookieStore, $rootScope, $state, $scope, userFactory, chatFactory, UploadFactory, appConfigs, $timeout) {
+﻿angular.module('chatApp').controller('chatController',
+
+    ['$cookieStore', '$rootScope', '$state', '$scope', 'userFactory', 'chatFactory', 'UploadFactory', 'appConfigs', '$timeout', 'SocketService','localStorageService',
+
+   function ($cookieStore, $rootScope, $state, $scope, userFactory, chatFactory, UploadFactory, appConfigs, $timeout, SocketService, localStorageService) {
        
     //memebers
     $scope.search = [];
@@ -10,7 +14,7 @@
     $scope.attachmet = {};
     $scope.validMessage = true;
     $scope.serverUrl = appConfigs.apiBaseURL;
-
+    $scope.NotificationMessage = null;
     ///////////////////////////////////UI Helpers/////////////////////////////////////////////////////////////////////
 
     $scope.setMessagePosition = function (SenderID) {
@@ -51,7 +55,11 @@
 
         return chatFactory.createChat(chat).then(function (data) {
             if (data.data.length > 0) {
+               
                 $scope.ActiveChat = data.data;
+                //append chat to chat list if not exist
+                SocketService.emit('chat', { chatId: $scope.ActiveChat.chatID });
+
             } else {
                 $scope.ActiveChat = {};
             }
@@ -64,6 +72,9 @@
              
             if (data.data) {
                 $scope.ActiveChat = data.data;
+
+                SocketService.emit('chat', { chatId: $scope.ActiveChat.chatID });
+
             } else {
                 $scope.ActiveChat = {};
             }
@@ -79,6 +90,9 @@
                 $scope.ChatList = data.data;
                 $scope.ActiveChat = data.data[0];
                 $scope.getChatDetails($scope.ActiveChat.chatID);
+
+                SocketService.emit('chat', { chatId: $scope.ActiveChat.chatID });
+
             } else {
                 $scope.ChatList = [];
                 $scope.ActiveChat = {};
@@ -104,7 +118,11 @@
         //get chat for these 2 users if exits, other wise creat it and get it too.
         return chatFactory.GetChatByMemebrs(currentUserId, otherContact).then(function (data) {
             if (data.data) {
+                 $scope.GetChats();
                 $scope.ActiveChat = data.data;
+
+                SocketService.emit('chat', { chatId: $scope.ActiveChat.chatID });
+
             } else {
                 $scope.ActiveChat = {};
             }
@@ -134,6 +152,8 @@
     function sendMessage() {
         var message = { SenderID: $rootScope.currentUser._id, chatID: $scope.ActiveChat.chatID, Text: $scope.Message.Text, AttachmentPath: $scope.AttachmentPath };
         return chatFactory.SendTextMessage(message).then(function (msg) {
+             SocketService.emit('toBackEnd', { chatId: $scope.ActiveChat.chatID, data: msg.data, date: new Date() })
+
             $scope.ActiveChat.messages.push(msg.data);
             $scope.disableSendBtn = false;
             $scope.Message.Text = "";
@@ -158,10 +178,8 @@
         
         return UploadFactory.upload(file).then(function (data) {
             console.log(data);
-
             $scope.AttachmentPath=  data.data.filePath;
-            alert(data);
-        });
+         });
         
     };
 
@@ -171,16 +189,34 @@
         $scope.GetChats();
         $scope.GetContacts();
 
-        //var counter = 11;
-        //function addItem() {
-        //    $scope.ActiveChat.messages.push({ Text: ++counter });
-        //    $timeout(addItem, 1000);
-        //}
-
-        //$timeout(addItem, 1000);
+     
     }
     ///////////////////////////////Initilization/////////////////////////////////////////////////////
     $scope.Initialize();
+    ////////////////// Listener for message Event ///////////////////////////
+    SocketService.on('message', function (msg) {
+        debugger;
+        if ($scope.ActiveChat.chatID == msg.chatID) {
+            $scope.ActiveChat.messages.push(msg);
+            $scope.NotificationMessage = null;
+        } else {
+          return  userFactory.GetUser(msg.SenderID).then(function (user) {
+                $scope.NotificationMessage = msg;
+                $scope.NotificationMessage.SenderName = user.data.name;
 
+                $(".NotificationMessage").css('transition', '2s');
+                $(".NotificationMessage").css('left',0);
+               
+                $timeout(function () {
+                    $scope.NotificationMessage = null;
+
+                    $(".NotificationMessage").css('transition', '3s');
+                    $(".NotificationMessage").css('left', -1000);
+                }, 3000);
+
+            });
+            
+        }
+    });
 
 }]);

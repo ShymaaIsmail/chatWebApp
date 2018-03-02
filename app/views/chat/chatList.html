@@ -8,13 +8,14 @@
                     <img src="./imgs/man02.png">
                 </div>
                 <div class="desc">
-                    <small class="time">{{chat.lastMessage.Created_date}}</small>
+                    <small class="time">{{chat.lastMessage[0].Created_date | date:'short'}}</small>
                     <h5>{{chat.member.name}}</h5>
-                    <small>{{chat.lastMessage[0].Text}}</small>
+                    <br />
+                    <small>{{chat.lastMessage[0].Text.substr(20)}}</small>
                 </div>
             </div>
         </li>
     </ul>
 
-     <div ng-show="{{ChatList.length==0}}">No Recent Chats</div>
+     <!--<div ng-show="{{ChatList.length==0}}">No Recent Chats</div>-->
 </div>

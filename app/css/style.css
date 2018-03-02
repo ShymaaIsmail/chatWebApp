@@ -365,9 +365,9 @@ body{
 
 
 
-#tab1:checked .tabsContent#content1,
-#tab2:checked  .tabsContent#content2,
-#tab3:checked  .tabsContent#content3 {
+#tab1:checked .tabsContent#chatsTab,
+#tab2:checked  .tabsContent#contactsTab,
+#tab3:checked  .tabsContent#searchTab {
   display: block;
 }
 
@@ -393,26 +393,51 @@ body{
     padding: 10px 15px 0px 15px;
     margin: -36px;
 }
+/*Scroll Glue styling*/
+[scroll-glue-top],
+[scroll-glue-bottom],
+[scroll-glue] {
+    height: 100px;
+    overflow-y: scroll;
+    border: 1px solid gray;
+}
 
-  <style type="text/css">
-      [scroll-glue-top],
-      [scroll-glue-bottom],
-      [scroll-glue]{
-        height: 100px;
-        overflow-y: scroll;
-        border: 1px solid gray;
-      }
+[scroll-glue-left],
+[scroll-glue-right] {
+    width: 100px;
+    overflow-x: scroll;
+    border: 1px solid gray;
+    padding: 10px;
+}
 
-      [scroll-glue-left],
-      [scroll-glue-right]{
-        width: 100px;
-        overflow-x: scroll;
-        border: 1px solid gray;
-        padding: 10px;
-      }
+[scroll-glue-left] span,
+[scroll-glue-right] span {
+    border: 1px solid black;
+}
+    
 
-      [scroll-glue-left] span,
-      [scroll-glue-right] span{
-        border: 1px solid black;
-      }
-    </style>
+.NotificationMessage{
+    width:250px;
+    height:80px;
+    margin-bottom: 5px !important;
+     position: relative;
+    overflow: hidden;
+    border: 1px solid black;
+    left: -1000px;
+ 
+}
+
+/*.NotificationMessage:hover .NotificationMessage{
+    transition: 1s;
+    left: 0;
+      position: relative;
+}*/
+.big-icon {
+    font-size: 25px;
+}
+
+.alert-info {
+    background-color: #47be87 !important;
+    border-color: #256a78 !important;
+    color: #ffffff  !important;
+}

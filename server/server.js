@@ -87,8 +87,8 @@ io.on('connection', function(client) {
 
     });
     client.on('toBackEnd', function(data) {
-      console.log('messsage'+data.data);
-               client.in(data.chatId).emit('message', data);
+      console.log('messsage'+data);
+               client.in(data.chatId).emit('message', data.data);
     })
 });
 

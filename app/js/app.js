@@ -1,11 +1,14 @@
 
 var chatApp = angular.module("chatApp", [
-    "ui.router",
-     "oc.lazyLoad",
-    "ngSanitize",
-     'ngCookies',
-     'ngFileUpload',
-     "oc.lazyLoad" 
+            "ui.router",
+            "oc.lazyLoad",
+            "ngSanitize",
+            'ngCookies',
+            'ngFileUpload',
+            "oc.lazyLoad",
+            'ngMaterial',
+            'LocalStorageModule',
+            'btford.socket-io'
 ]);
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */

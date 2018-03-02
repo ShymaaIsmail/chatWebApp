@@ -16,7 +16,32 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
 
     <link id="ng_load_plugins_before" />
-     
+
+    <!--<style type="text/css">
+        [scroll-glue-top],
+        [scroll-glue-bottom],
+        [scroll-glue] {
+            height: 100px;
+            overflow-y: scroll;
+            border: 1px solid gray;
+        }
+
+        [scroll-glue-left],
+        [scroll-glue-right] {
+            width: 100px;
+            overflow-x: scroll;
+            border: 1px solid gray;
+            padding: 10px;
+        }
+
+            [scroll-glue-left] span,
+            [scroll-glue-right] span {
+                border: 1px solid black;
+            }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.js"></script>
+    <script src="https://cdn.rawgit.com/Luegg/angularjs-scroll-glue/master/src/scrollglue.js"></script>-->
+
 
 </head>
 
@@ -44,9 +69,24 @@
                  <script src="libs/angular-touch.min.js" type="text/javascript"></script>
                  <script src="libs/angular-ui-router.min.js" type="text/javascript"></script>
                  <script src="libs/ocLazyLoad.min.js" type="text/javascript"></script>
-
+                
                  <script src="libs/ng-file-upload.min.js"></script>
+
                  <!-- END CORE ANGULARJS PLUGINS -->
+
+                 <!--  Start Real Time Client Scripts -->
+                 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-animate.min.js"></script>
+                 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-aria.min.js"></script>
+                 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-messages.min.js"></script>
+                 <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+                 <script src="libs/angular-local-storage.min.js"></script>
+                 <script src="libs/client-socket.io.js"></script>
+                 <!--<script src="http://localhost:3000/socket.io/socket.io.js"></script>-->
+                 <script src="libs/server-socket.io.js"></script>
+                 <script src="libs/angular-socket.min.js"></script>
+
+
+                 <!-- End Real Time Client Scripts -->
                  <!-- start chat scripts -->
                  <!--<script src="libs/app.js" type="text/javascript"></script>-->
                  <script src="js/app.js" type="text/javascript"></script>
@@ -56,18 +96,20 @@
                  <script src="js/factories/generic/UploadFactory.js" type="text/javascript"></script>
       
                  <script src="js/app.routings.js" type="text/javascript"></script>
-
+                 <script src="js/services/SocketService.js"></script>
                  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
                  <!-- custom scrollbar plugin -->
                  <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 
                  <!-- end chat scripts -->
 
-                 <script src="libs/socket.io.js"></script>
-                 <script src="js/factories/sockets/socketFactory.js"></script>
-                 <script src="js/factories/sockets/pubsubFactory.js"></script>
+                  
+                 <!-- start File Upload Scripts -->
+                 <script type="text/javascript" src="libs/ng-file-upload.min.js"></script>
+                 <script type="text/javascript" src="libs/ng-file-upload-shim.min.js"></script>        
+                 <!-- end File Upload Scripts -->
 
-                
+ 
  </body>
 
 <!-- END BODY -->

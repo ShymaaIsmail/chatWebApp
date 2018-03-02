@@ -58,9 +58,32 @@ chatApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider
                             'js/controllers/chatController.js',
                             'js/factories/chatFactory.js',
                              'js/factories/userFactory.js',
+                             'js/factories/generic/UploadFactory.js'
                         ]
                     }]);
                 }]
             }
         })
+
+
+    .state('testRealTime', {
+        url: "/testRealTime.html",
+        templateUrl: "views/chat/testRealTime.html",
+        data: { pageTitle: 'chat' },
+        controller: "realtimeController",
+        resolve: {
+            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    name: 'chatApp',
+                    files: [
+                        'js/controllers/realtimeController.js'  
+                    ]
+                }]);
+            }]
+        }
+    })
+
+    
+
+
 }]);

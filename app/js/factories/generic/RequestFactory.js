@@ -52,6 +52,8 @@
                     window.location = "login.html";
                 else if (status == 500)
                     alert("upload failed");
+
+
             });
             return result;
         }

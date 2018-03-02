@@ -1,4 +1,4 @@
-﻿angular.module('chatApp').controller('chatController', ['$cookieStore', '$rootScope', '$state', '$scope', 'userFactory', 'chatFactory', function ($cookieStore,$rootScope, $state, $scope, userFactory, chatFactory) {
+﻿angular.module('chatApp').controller('chatController', ['$cookieStore', '$rootScope', '$state', '$scope', 'userFactory', 'chatFactory', 'UploadFactory', 'appConfigs', '$timeout', function ($cookieStore, $rootScope, $state, $scope, userFactory, chatFactory, UploadFactory, appConfigs, $timeout) {
        
     //memebers
     $scope.search = [];
@@ -7,7 +7,9 @@
     $scope.ChatList = [];
     $scope.ContactList = [];
     $scope.Message = [];
-
+    $scope.attachmet = {};
+    $scope.validMessage = true;
+    $scope.serverUrl = appConfigs.apiBaseURL;
 
     ///////////////////////////////////UI Helpers/////////////////////////////////////////////////////////////////////
 
@@ -116,20 +118,66 @@
     }
 
     $scope.SendTextMessage = function () {
-       
-        $scope.disableSendBtn = true;
-        var message = { SenderID: $rootScope.currentUser._id, chatID: $scope.ActiveChat.chatID, Text: $scope.Message.Text };
-        chatFactory.SendTextMessage(message).then(function (msg) {
+        $scope.validMessage=$scope.IsValidMessage();
+        if ($scope.validMessage) {
+            $scope.disableSendBtn = true;
+            if ($scope.attachmet.file) {
+                $scope.UploadAttachment().then(function () {
+                    return    sendMessage();
+                });
+            }else{
+                return  sendMessage();
+            }
+         }
+    }
+
+    function sendMessage() {
+        var message = { SenderID: $rootScope.currentUser._id, chatID: $scope.ActiveChat.chatID, Text: $scope.Message.Text, AttachmentPath: $scope.AttachmentPath };
+        return chatFactory.SendTextMessage(message).then(function (msg) {
             $scope.ActiveChat.messages.push(msg.data);
             $scope.disableSendBtn = false;
             $scope.Message.Text = "";
+            $scope.AttachmentPath = "";
+            $scope.attachmet = {};
+
         });
     }
+
+    $scope.IsValidMessage = function () {
+
+        return ($scope.AttachmentPath !=undefined&& $scope.AttachmentPath.length > 0) || ($scope.Message.Text != undefined && $scope.Message.Text.length > 0);
+    }
+    ////////////////////////////////File Upload Section/////////////////////////////////////////////////////////////////////////////////
+    $scope.UploadAttachment = function () {  
+         if ($scope.attachmet.file) { //check if file is selected
+          return  $scope.upload($scope.attachmet.file); //call upload function
+        }
+    }
+
+    $scope.upload = function (file) {
+        
+        return UploadFactory.upload(file).then(function (data) {
+            console.log(data);
+
+            $scope.AttachmentPath=  data.data.filePath;
+            alert(data);
+        });
+        
+    };
+
     $scope.Initialize = function () {
         $rootScope.currentUser = $cookieStore.get('key');
 
         $scope.GetChats();
         $scope.GetContacts();
+
+        //var counter = 11;
+        //function addItem() {
+        //    $scope.ActiveChat.messages.push({ Text: ++counter });
+        //    $timeout(addItem, 1000);
+        //}
+
+        //$timeout(addItem, 1000);
     }
     ///////////////////////////////Initilization/////////////////////////////////////////////////////
     $scope.Initialize();

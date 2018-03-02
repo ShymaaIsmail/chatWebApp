@@ -393,3 +393,26 @@ body{
     padding: 10px 15px 0px 15px;
     margin: -36px;
 }
+
+  <style type="text/css">
+      [scroll-glue-top],
+      [scroll-glue-bottom],
+      [scroll-glue]{
+        height: 100px;
+        overflow-y: scroll;
+        border: 1px solid gray;
+      }
+
+      [scroll-glue-left],
+      [scroll-glue-right]{
+        width: 100px;
+        overflow-x: scroll;
+        border: 1px solid gray;
+        padding: 10px;
+      }
+
+      [scroll-glue-left] span,
+      [scroll-glue-right] span{
+        border: 1px solid black;
+      }
+    </style>

@@ -9,7 +9,7 @@ function userController($scope, $rootScope, $location, userFactory,$cookieStore)
     $scope.login = function () {
          
         if ($scope.form.$valid){
-            userFactory.Login($scope.username, $scope.password).success(function (data, status, headers, config) {
+          return  userFactory.Login($scope.username, $scope.password).success(function (data, status, headers, config) {
                 
                 if (data.length > 0) {
                     $cookieStore.put('key', data[0]);

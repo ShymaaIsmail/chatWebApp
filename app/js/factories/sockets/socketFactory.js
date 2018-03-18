@@ -17,8 +17,7 @@ function (LoopBackAuth, appConfigs) {
         socket.emit('authentication', { id: id, userId: userId });
         socket.on('authenticated', function () {
             // use the socket as usual
-            console.log('User is authenticated');
-        });
+         });
     });
     return socket;
 

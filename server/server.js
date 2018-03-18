@@ -53,8 +53,7 @@ app.use('/uploads',express.static(__dirname + '/uploads'));
         },
         filename: function (req, file, cb) {
             var datetimestamp = Date.now();
-            console.log('file   :  '+file);
-            cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
+             cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
         }
     });
 
@@ -79,17 +78,13 @@ app.use('/uploads',express.static(__dirname + '/uploads'));
 var io = require('socket.io').listen(server);
 io.on('connection', function(client) {
     client.on('disconnect', function() {
-    console.log("disconnected")
-    });
+     });
     client.on('chat', function(data) {
-      console.log('chat is '+data.chatId);
-        client.join(data.chatId);
-        console.log(' Client joined the room and client id is '+ client.id);
-
+         client.join(data.chatId);
+ 
     });
     client.on('toBackEnd', function(data) {
-      console.log('messsage'+data);
-               client.in(data.chatId).emit('message', data.data);
+    client.in(data.chatId).emit('message', data.data);
     })
 });
 
@@ -105,6 +100,5 @@ io.on('connection', function(client) {
   });
   //app.listen(port);
 /////////////////////////////////////log startup message///////////////////////
-	console.log('chat RESTful API server started on: ' + port);
-
+ 
 

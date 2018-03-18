@@ -9,8 +9,7 @@ module.exports = {
             var data           = options.data;
             var modelId        = options.modelId;
             if(method === 'POST'){
-                //console.log('Posting new data');
-                var name = '/' + collectionName + '/' + method;
+                 var name = '/' + collectionName + '/' + method;
                 socket.emit(name, data);
             }
             else{

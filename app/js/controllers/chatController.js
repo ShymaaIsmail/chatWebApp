@@ -132,8 +132,7 @@
             } else {
                 $scope.ActiveChat = {};
             }
-            console.log($scope.ActiveChat);
-            //jump on first tab
+             //jump on first tab
 
             $("#tab1").click();
         });
@@ -184,8 +183,7 @@
     $scope.upload = function (file) {
         
         return UploadFactory.upload(file).then(function (data) {
-            console.log(data);
-            $scope.AttachmentPath=  data.data.filePath;
+             $scope.AttachmentPath=  data.data.filePath;
          });
         
     };

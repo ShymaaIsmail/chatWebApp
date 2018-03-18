@@ -105,8 +105,7 @@ return chatDtos;
       contctUserIDs.splice(index, 1);
   }
   //here :contctUserIDs represne the unique contacts of this account.
-  console.log(contctUserIDs);
- 
+  
  return  userervice.getMultipleUsers(contctUserIDs).then(function(users){
     contacts=users;
 
@@ -120,8 +119,7 @@ return chatDtos;
 
 ///////////////////returns (ListOfMessages and Memebr User Object) ///////////////////////////////////////////////
   function getChatDetails(chatId,loggedUserID) {
-
-    console.log('chatIdchatIdchatIdchatIdchatIdchatIdchatId '+ chatId);
+ 
 return  chatRepo.findByID(chatId).then(function(chat) {
    var chatDetails={};
  var contactUserID=chat.members.filter(function(value){ return value !==loggedUserID;});
@@ -148,8 +146,7 @@ return  chatRepo.findByID(chatId).then(function(chat) {
 function getCreateChatByMembers(arrMemebers,loggedInUser){
 
  arrMemebers=arrMemebers.sort();
- 
-  console.log('arrMemebersarrMemebersarrMemebersarrMemebers:  '+ arrMemebers);
+  
  return chatRepo.find({"members":arrMemebers  },null,null,1,null).then(function(existedChat){
    if(existedChat!="")//existed chat
  {
@@ -164,13 +161,8 @@ return detail;
  } else{//cretae chat
 var new_chat=new chat();
 new_chat.members=arrMemebers;
-
-  console.log('new_chat:  '+ new_chat);
- return createChat(new_chat).then(function(newChat){
  
-  console.log('newChat:  '+ newChat);
-
-
+ return createChat(new_chat).then(function(newChat){
  return  getChatDetails(newChat._id,loggedInUser).then(function(detail){
 
 return detail;

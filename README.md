@@ -1,6 +1,6 @@
 # chatWebApp
 
-                                        Modeso Assignment
+                                        
                                         Developed by: Shymaa M. Ismail
 1-Used Technologies and Patterns:
 

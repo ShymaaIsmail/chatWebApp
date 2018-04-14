@@ -15,6 +15,7 @@
     $scope.validMessage = true;
     $scope.serverUrl = appConfigs.apiBaseURL;
     $scope.NotificationMessage = null;
+    $scope.IsHumanChat = true;
     ///////////////////////////////////UI Helpers/////////////////////////////////////////////////////////////////////
 
     $scope.setMessagePosition = function (SenderID) {
@@ -54,6 +55,8 @@
     }
 
     $scope.createChat = function (memberid) {
+        $scope.IsHumanChat = true;
+
         var currentUserId = $rootScope.currentUser._id;
         var chat = {members:[memberid,currentUserId]};
 
@@ -71,6 +74,8 @@
     }
 
     $scope.getChatDetails = function (chatId) {
+        $scope.IsHumanChat = true;
+
         var currentUserId = $rootScope.currentUser._id;
         return chatFactory.getChatDetails(chatId, currentUserId).then(function (data) {
              
@@ -188,15 +193,25 @@
         
     };
 
+
+    //////////////////////////Bot Web Chat////////////////////////////////////////////////////////////
+    $scope.openBotWebChat = function () {
+        $scope.IsHumanChat = false;
+        $scope.ActiveChat = {};
+        $scope.ActiveChat.member = {};
+        $scope.ActiveChat.member.name = "Reservation Bot";
+    }
+
+    //////////////////////////////Initilization/////////////////////////////////////////////////////
     $scope.Initialize = function () {
         $rootScope.currentUser = $cookieStore.get('key');
 
         $scope.GetChats(true);
         $scope.GetContacts();
 
-     
+
     }
-    ///////////////////////////////Initilization/////////////////////////////////////////////////////
+
     $scope.Initialize();
     ////////////////// Listener for message Event ///////////////////////////
     SocketService.on('message', function (msg) {
@@ -225,5 +240,4 @@
             
         }
     });
-
 }]);

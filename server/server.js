@@ -1,30 +1,27 @@
 /////////////////////////////Loading Required Modules and libraries////////////////////////////////////////////////////////////////////////////////////////////
- var express = require('express'),
+var express = require('express'),
 
- path = require("path"),
+path = require("path"),
 
- app = module.exports.app =express(),
+app = module.exports.app = express(),
 
- multer = require('multer'),
+multer = require('multer'),
 
- //http = require('http'),
+cors = require('cors'),
 
-// server = http.createServer(app),
+port = process.env.PORT || 9080,
 
- cors = require('cors'),
+server = app.listen(port),
 
- port = process.env.PORT || 9080,
+bodyParser = require('body-parser'),
 
- server = app.listen(port);
-  
- bodyParser = require('body-parser'),
+routes = require('./routes/routes.js'),
 
- routes = require('./routes/routes.js'),
-  
- db = require("./models/db.js") ;
+db = require("./models/db.js");
 
+require('dotenv').load();
 
-var clientUrl="http://localhost:32772";
+var clientUrl = "http://localhost:46729";
 ///////////////////////////////Enable cors rigin request///////////////////////////////////////////////////////////////////////
  app.use(cors());
  app.use(function(req, res, next) { //allow cross origin requests
@@ -90,15 +87,15 @@ io.on('connection', function(client) {
 
 //////////////////////////////////End Socket IO Registeration////////////////////////////////////////////////////////////////////////////////////
 
-//////////////////////////////////Routes Registeration ///////////////////////////////////////////////////////////////////////////
+
+  //////////////////////////////////Routes Registeration ///////////////////////////////////////////////////////////////////////////
   routes(app); //register the route
 
- 
-////////////////////////////////////handle FallBack Requests////////////////////////////////////////////////////////////////////
-  app.use(function(req, res) {
-  res.status(404).send({url: req.originalUrl + ' not found'})
+
+  ////////////////////////////////////handle FallBack Requests////////////////////////////////////////////////////////////////////
+  app.use(function (req, res) {
+      res.status(404).send({ url: req.originalUrl + ' not found' })
   });
   //app.listen(port);
-/////////////////////////////////////log startup message///////////////////////
- 
+  /////////////////////////////////////log startup message///////////////////////
 

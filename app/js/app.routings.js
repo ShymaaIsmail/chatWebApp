@@ -4,8 +4,7 @@ chatApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider
 
     // Redirect any unmatched url
     $urlRouterProvider.otherwise("/login.html");
-
-
+     
     $stateProvider
 
         .state('login', {
@@ -58,32 +57,30 @@ chatApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider
                             'js/controllers/chatController.js',
                             'js/factories/chatFactory.js',
                              'js/factories/userFactory.js',
-                             'js/factories/generic/UploadFactory.js'
+                             'js/factories/generic/UploadFactory.js',
+                             'js/controllers/botController.js'
+
                         ]
                     }]);
                 }]
             }
         })
-
-
-    .state('testRealTime', {
-        url: "/testRealTime.html",
-        templateUrl: "views/chat/testRealTime.html",
-        data: { pageTitle: 'chat' },
-        controller: "realtimeController",
-        resolve: {
-            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                return $ocLazyLoad.load([{
-                    name: 'chatApp',
-                    files: [
-                        'js/controllers/realtimeController.js'  
-                    ]
-                }]);
-            }]
-        }
-    })
-
-    
-
-
+         
+        .state('bot', {
+            url: "/bot.html",
+            templateUrl: "views/bot/webChat.html",
+            data: { pageTitle: 'bot' },
+            controller: "botController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([{
+                        name: 'chatApp',
+                        files: [
+                            'js/controllers/botController.js'
+                        ]
+                    }]);
+                }]
+            }
+        })
+     
 }]);

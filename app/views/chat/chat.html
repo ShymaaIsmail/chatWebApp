@@ -51,13 +51,11 @@
             <div data-ng-include="'views/chat/searchUsers.html'"></div>
 
         </section>
+         
+        <div data-ng-include="'views/chat/chatDetails.html'" ng-show="IsHumanChat"></div>
 
-
-
-        <div data-ng-include="'views/chat/chatDetails.html'" ></div>
-
-
-        
+        <div data-ng-include="'views/bot/webChat.html'" ng-controller="botController" ng-show="!IsHumanChat"></div>
+         
     </div>
 </div>
 <script>

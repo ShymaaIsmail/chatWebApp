@@ -1,6 +1,19 @@
 ﻿ <div class="left-section mCustomScrollbar contacts-outter-wrapper tab-pane active" id="chats" data-mcs-theme="minimal-dark">
     <ul >
 
+        <li>
+            <div class="chatList" ng-click="openBotWebChat()">
+                <div class="img">
+                    <i class="fa fa-circle"></i>
+                    <img src="./imgs/man02.png">
+                </div>
+                <div class="desc">
+                    <h5>Reservations Bot</h5>
+                    <br />
+                    <small>contact us to reserve any time</small>
+                </div>
+            </div>
+        </li>
         <li ng-repeat="chat in ChatList" ng-click="getChatDetails(chat.chatID)" ng-class="{'active':chat.chatID==ActiveChat.chatID}">
             <div class="chatList">
                 <div class="img">

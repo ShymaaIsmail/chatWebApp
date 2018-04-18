@@ -6,12 +6,12 @@ var Schema = mongoose.Schema;
 var reservationSchema = new Schema({
 
     guestName: {
-        type: [String],
+        type: String,
         required: 'Kindly enter the name of the guest'
     },
 
     guestEmail: {
-        type: [String],
+        type: String,
         required: 'Kindly enter the email of the guest'
     },
     reservationDate: {

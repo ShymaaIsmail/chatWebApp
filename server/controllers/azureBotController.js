@@ -3,6 +3,8 @@
 var botconfig = require("../config/botConfig.js");
 var builder = require('botbuilder');
 var botbuilder_azure = require("botbuilder-azure");
+var reservationService = require("../services/reservationService.js");
+const reservation = require("../models/reservationModel")
 
 ////////////////////////////////////////Bot builder/////////////////////////////////////////////////////////////////////////
 // Create chat connector for communicating with the Bot Framework Service
@@ -40,12 +42,15 @@ function buildAzureBotConnection() {
     var tableName = 'botdata';
     var azureTableClient = new botbuilder_azure.AzureTableClient(tableName, botconfig.AzureWebJobsStorage);
     var tableStorage = new botbuilder_azure.AzureBotStorage({ gzipData: false }, azureTableClient);
-
     // Create your bot with a function to receive messages from the user
     // This default message handler is invoked if the user's utterance doesn't
     // match any intents handled by other dialogs.
     var bot = new builder.UniversalBot(connector, function (session, args) {
-        session.send('You reached the default message handler. You said \'%s\'.', session.message.text);
+    
+        session.send('You request is not understood. You said \'%s\'.', session.message.text);
+
+
+        session.beginDialog('GreetingDialog');
     });
 
     bot.set('storage', tableStorage);
@@ -72,69 +77,70 @@ function manageBotDialogs(bot) {
     // Add a dialog for each intent that the LUIS app recognizes.
     // See https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-recognize-intent-luis 
     bot.dialog('GreetingDialog',
-        (session, args, next)  => {
+        (session, args, next) => {
             session.send('Welcome to modeso Reservation Bot');
             session.endDialog();
-         }
+        }
     ).triggerAction({
         matches: 'Greeting'
     })
 
     bot.dialog('HelpDialog',
-        (session, args, next)  => {
+        (session, args, next) => {
             session.beginDialog('ReserveDialog');
         }
     ).triggerAction({
         matches: 'Help'
     })
 
+
     bot.dialog('ReserveDialog',
-         function (session, args)  {
+         function (session, args) {
 
              session.send("Welcome to the Modeso reservation.");
              session.endDialog();
 
              session.beginDialog('GuestInfoDialog');
 
-         } 
-    
+         }
+
     ).triggerAction({
         matches: 'ReserveRequest'
     })
 
 
 
-    bot.dialog('GuestInfoDialog', 
+    bot.dialog('GuestInfoDialog',
     function (session, args) {
-         
-        if (args != undefined && args.intent.entities != undefined ) {
+
+        if (args != undefined && args.intent.entities != undefined) {
             var intent = args.intent;
             //Extract Info 
-
-            var name = builder.EntityRecognizer.findEntity(intent.entities, 'name');
-
-            var email = builder.EntityRecognizer.findEntity(intent.entities, 'mail');
-
+            var nameFullEntity = builder.EntityRecognizer.findEntity(intent.entities, 'name');
+            var emailFullEntity = builder.EntityRecognizer.findEntity(intent.entities, 'contact');
+ 
             var guestInfo = {
-                name: name ? name.entity : null,
-                email: email ? email.entity : null
+                guestName: nameFullEntity ? nameFullEntity.entity : null,
+                guestEmail: emailFullEntity ? emailFullEntity.entity : contactFullEntity.entity
             };
-            session.userData.guestInfo = guestInfo;
-          //  session.endDialogWithResult({ response: { guestInfo: session.userData.guestInfo } });
-            session.endDialog();
+             if (guestInfo.guestEmail != null && guestInfo.guestName != null) {
+                session.userData.guestInfo = guestInfo;
+                session.endDialog();
+                session.beginDialog('ReservationDateDialog');
 
-            session.beginDialog('ReservationDateDialog');
+            } else {
+                session.endDialog();
+                session.beginDialog('GuestInfoDialog');
+
+            }
         } else {
-            session.send("Please provide us with your name and email to fill the reservation request.");
+            session.send("Please provide us with your name and email correctly to fill the reservation request.");
             session.endDialog();
-            //session.endDialogWithResult({ response: { guestInfo: session.userData.guestInfo } });
         }
-    } 
-    
+    }
     ).triggerAction({
         matches: 'GuestInfo'
     })
-
 
 
     bot.dialog('ReservationDateDialog',
@@ -142,19 +148,28 @@ function manageBotDialogs(bot) {
              if (args != undefined && args.intent.entities != undefined) {
                  var intent = args.intent;
                  //Extract Info 
-
                  var reservationDate = builder.EntityRecognizer.findEntity(intent.entities, 'reservationDate');
-                   
+                 if (reservationDate.entity) {
+                     session.userData.guestInfo.reservationDate = reservationDate.entity;
+                     session.endDialog();
+                     session.send("Please wait ,we are checking Availability of " + reservationDate.entity + " day.");
+                     reservationService.checkDateAvailability(reservationDate.entity, session.userData.guestInfo.guestEmail).then(function (reservedDate) {
+                         if (reservedDate.length == 0) {//available date
+                              session.beginDialog('ConfirmDialog', { automaticStart: true });
 
-                 session.userData.guestInfo.reservationDate = reservationDate.entity;
+                         } else {
 
-                 console.log("full infoo : " + JSON.stringify(session.userData.guestInfo));
+                             session.send('Unfortunaltely,This desired reservation date is busy, please enter another date.');
+                             session.beginDialog('ReservationDateDialog');
 
-                 session.endDialog();
+                         }
 
-              } else {
+                     }).catch(function (err) {
+                     });
+
+                 }
+             } else {
                  session.send("Please provide us with your Reservation Date.");
-
                  session.endDialog();
              }
          }
@@ -162,27 +177,28 @@ function manageBotDialogs(bot) {
         matches: 'ReservationDate'
     })
 
-
-
     bot.dialog('ConfirmDialog',
-        (session, args, next) => {
-            session.send('Would you confirm your reservation?');
-            session.endDialog();
-        }
-    ).triggerAction({
-        matches: 'Cancel'
-    })
+     function (session, args, next) {
+         var reservationFullInfo = session.userData.guestInfo;
+ 
+         if (args!=undefined&&args.automaticStart != undefined && !args.automaticStart && reservationFullInfo != undefined) {
+             var new_reservation = new reservation(session.userData.guestInfo);
+ 
+             reservationService.createreservation(new_reservation).then(function (obj) {
+                 session.send("Congratulations,Your reservation at " + session.userData.guestInfo.reservationDate + " has been confirmed");
+                 session.endDialog();
 
-    bot.dialog('CancelDialog',
-        (session, args, next) => {
-            session.send('Are you sure you want to cancel your reservation?');
-            session.endDialog();
-        }
+             }).catch(function (err) {
+             });
+         } else {
+             session.endDialog();
+             session.beginDialog('ConfirmDialog', { automaticStart: false });
+         }
+     }
     ).triggerAction({
-        matches: 'Cancel'
+        matches: 'Confirm'
     })
 
 
     return bot;
-
 }

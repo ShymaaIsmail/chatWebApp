@@ -21,7 +21,7 @@ db = require("./models/db.js");
 
 require('dotenv').load();
 
-var clientUrl = "http://localhost:46729";
+var clientUrl = "http://localhost:32772";
 ///////////////////////////////Enable cors rigin request///////////////////////////////////////////////////////////////////////
  app.use(cors());
  app.use(function(req, res, next) { //allow cross origin requests

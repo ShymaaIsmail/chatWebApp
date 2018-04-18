@@ -18,8 +18,9 @@ const message = require("../models/messageModel")
 var messageRepo = repo(message,config.dbUrl);
 
 //reservation model and repo
-const reservation = require("../models/chatModel")
+const reservation = require("../models/reservationModel")
 var reservationRepo = repo(reservation, config.dbUrl);
+
 
 
 module.exports = {

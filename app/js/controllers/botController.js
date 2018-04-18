@@ -6,5 +6,6 @@ angular.module('chatApp').controller('botController',
    function ($cookieStore, $rootScope, $state, $scope, appConfigs, $sce) {
         
        $scope.azureBotUrl = $sce.trustAsResourceUrl(appConfigs.azureBotUrl);
+       $("#topNavBar-height").hide();
 
    }]);

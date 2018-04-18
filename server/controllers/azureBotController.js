@@ -169,7 +169,7 @@ function manageBotDialogs(bot) {
 
                  }
              } else {
-                 session.send("Please provide us with your Reservation Date.");
+                 session.send("Please provide us with your Reservation Date (dd/MM/yyyy).");
                  session.endDialog();
              }
          }

@@ -1,8 +1,8 @@
 ﻿ <div class="left-section mCustomScrollbar contacts-outter-wrapper tab-pane active" id="chats" data-mcs-theme="minimal-dark">
     <ul >
 
-        <li>
-            <div class="chatList" ng-click="openBotWebChat()">
+        <li  ng-click="openBotWebChat()"  ng-class="{'active':IsHumanChat==false}">
+            <div class="chatList">
                 <div class="img">
                     <i class="fa fa-circle"></i>
                     <img src="./imgs/man02.png">

@@ -11,28 +11,29 @@ var connector = new builder.ChatConnector({
     appPassword: botconfig.MicrosoftAppPassword,
     openIdMetadata: botconfig.BotOpenIdMetadata
 });
- 
-
+  
 exports.listenbot = function (req, res) {
     RegisterBot();
     // Listen for messages from users 
- return   connector.listen();
+    return connector.listen();
 }
-function RegisterBot() {
+function RegisterBot  () {
     
     /*----------------------------------------------------------------------------------------
     * Bot Storage: This is a great spot to register the private state storage for your bot. 
     * We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
     * For samples and documentation, see: https://github.com/Microsoft/BotBuilder-Azure
     * ---------------------------------------------------------------------------------------- */
-    console.log(botconfig);
-    
+     
     var bot = buildAzureBotConnection();
 
     //setup luis App setting
-    manageLuisAppSetting(bot);
+    bot = manageLuisAppSetting(bot);
+     
     //dialogs responses
-    manageBotDialogs(bot);
+    bot = manageBotDialogs(bot);
+ 
+    return bot;
 };
 
 function buildAzureBotConnection() {
@@ -64,55 +65,72 @@ function manageLuisAppSetting(bot) {
     // Create a recognizer that gets intents from LUIS, and add it to the bot
     var recognizer = new builder.LuisRecognizer(LuisModelUrl);
     bot.recognizer(recognizer);
-
+    return bot;
 }
 
 function manageBotDialogs(bot) {
     // Add a dialog for each intent that the LUIS app recognizes.
     // See https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-recognize-intent-luis 
     bot.dialog('GreetingDialog',
-        (session) => {
-            session.send('You reached the Greeting intent. You said \'%s\'.', session.message.text);
+        (session, args, next)  => {
+            session.send('Welcome to modeso Reservation Bot');
             session.endDialog();
-        }
+         }
     ).triggerAction({
         matches: 'Greeting'
     })
 
     bot.dialog('HelpDialog',
-        (session) => {
-            session.send('You reached the Help intent. You said \'%s\'.', session.message.text);
-            session.endDialog();
+        (session, args, next)  => {
+            session.beginDialog('ReserveDialog');
         }
     ).triggerAction({
         matches: 'Help'
     })
 
-    bot.dialog('CancelDialog',
-        (session) => {
-            session.send('You reached the Cancel intent. You said \'%s\'.', session.message.text);
-            session.endDialog();
-        }
-    ).triggerAction({
-        matches: 'Cancel'
-    })
-
     bot.dialog('ReserveDialog',
-        (session) => {
-            session.send('You reached the ReserveDialog intent. You said \'%s\'.', session.message.text);
-            session.endDialog();
-        }
+         function (session, args)  {
+
+             session.send("Welcome to the Modeso reservation.");
+             session.endDialog();
+
+             session.beginDialog('GuestInfoDialog');
+
+         } 
+    
     ).triggerAction({
         matches: 'ReserveRequest'
     })
 
 
 
-    bot.dialog('GuestInfoDialog',
-        (session) => {
-            session.send('You reached the GuestInfo intent. You said \'%s\'.', session.message.text);
+    bot.dialog('GuestInfoDialog', 
+    function (session, args) {
+         
+        if (args != undefined && args.intent.entities != undefined ) {
+            var intent = args.intent;
+            //Extract Info 
+
+            var name = builder.EntityRecognizer.findEntity(intent.entities, 'name');
+
+            var email = builder.EntityRecognizer.findEntity(intent.entities, 'mail');
+
+            var guestInfo = {
+                name: name ? name.entity : null,
+                email: email ? email.entity : null
+            };
+            session.userData.guestInfo = guestInfo;
+          //  session.endDialogWithResult({ response: { guestInfo: session.userData.guestInfo } });
             session.endDialog();
+
+            session.beginDialog('ReservationDateDialog');
+        } else {
+            session.send("Please provide us with your name and email to fill the reservation request.");
+            session.endDialog();
+            //session.endDialogWithResult({ response: { guestInfo: session.userData.guestInfo } });
         }
+    } 
+    
     ).triggerAction({
         matches: 'GuestInfo'
     })
@@ -120,13 +138,51 @@ function manageBotDialogs(bot) {
 
 
     bot.dialog('ReservationDateDialog',
-        (session) => {
-            session.send('You reached the ReservationDate intent. You said \'%s\'.', session.message.text);
-            session.endDialog();
-        }
+         function (session, args, next) {
+             if (args != undefined && args.intent.entities != undefined) {
+                 var intent = args.intent;
+                 //Extract Info 
+
+                 var reservationDate = builder.EntityRecognizer.findEntity(intent.entities, 'reservationDate');
+                   
+
+                 session.userData.guestInfo.reservationDate = reservationDate.entity;
+
+                 console.log("full infoo : " + JSON.stringify(session.userData.guestInfo));
+
+                 session.endDialog();
+
+              } else {
+                 session.send("Please provide us with your Reservation Date.");
+
+                 session.endDialog();
+             }
+         }
     ).triggerAction({
         matches: 'ReservationDate'
     })
 
+
+
+    bot.dialog('ConfirmDialog',
+        (session, args, next) => {
+            session.send('Would you confirm your reservation?');
+            session.endDialog();
+        }
+    ).triggerAction({
+        matches: 'Cancel'
+    })
+
+    bot.dialog('CancelDialog',
+        (session, args, next) => {
+            session.send('Are you sure you want to cancel your reservation?');
+            session.endDialog();
+        }
+    ).triggerAction({
+        matches: 'Cancel'
+    })
+
+
+    return bot;
 
 }

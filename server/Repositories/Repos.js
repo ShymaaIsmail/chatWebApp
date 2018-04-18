@@ -17,9 +17,14 @@ var chatRepo = repo(chat,config.dbUrl);
 const message = require("../models/messageModel")
 var messageRepo = repo(message,config.dbUrl);
 
+//reservation model and repo
+const reservation = require("../models/chatModel")
+var reservationRepo = repo(reservation, config.dbUrl);
+
 
 module.exports = {
     userRepo: userRepo,
-    chatRepo:chatRepo,
-    messageRepo:messageRepo
+    chatRepo: chatRepo,
+    messageRepo: messageRepo,
+    reservationRepo: reservationRepo
 }

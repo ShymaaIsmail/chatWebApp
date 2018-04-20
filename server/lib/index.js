@@ -1,26 +1,16 @@
 /////////////////////////////Loading Required Modules and libraries////////////////////////////////////////////////////////////////////////////////////////////
-var express = require('express'),
+import express from 'express';
+import path from  "path";
+import multer from 'multer';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import routes from '../routes/routes.js';
+import db from "../models/db.js";
+var app = module.exports.app = express();
+var port = process.env.PORT || 9080;
+var server = app.listen(port);
 
-path = require("path"),
-
-app = module.exports.app = express(),
-
-multer = require('multer'),
-
-cors = require('cors'),
-
-port = process.env.PORT || 9080,
-
-server = app.listen(port),
-
-bodyParser = require('body-parser'),
-
-routes = require('./routes/routes.js'),
-
-db = require("./models/db.js");
-
-require('dotenv').load();
-
+ 
 var clientUrl = "http://localhost:32772";
 ///////////////////////////////Enable cors rigin request///////////////////////////////////////////////////////////////////////
  app.use(cors());
@@ -46,7 +36,7 @@ app.use('/uploads',express.static(__dirname + '/uploads'));
 
     var storage = multer.diskStorage({ //multers disk storage settings
         destination: function (req, file, cb) {
-            cb(null, './uploads/chatAttachments/');
+            cb(null, '../uploads/chatAttachments/');
         },
         filename: function (req, file, cb) {
             var datetimestamp = Date.now();
@@ -101,4 +91,4 @@ io.on('connection', function(client) {
   });
   //app.listen(port);
   /////////////////////////////////////log startup message///////////////////////
-
+ 

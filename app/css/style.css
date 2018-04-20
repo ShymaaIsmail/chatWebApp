@@ -441,3 +441,7 @@ body{
     border-color: #256a78 !important;
     color: #ffffff  !important;
 }
+
+.botHighlightColor {
+    background-color: #40a777 !important;
+}

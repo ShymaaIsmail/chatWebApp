@@ -1,94 +1,144 @@
 /////////////////////////////Loading Required Modules and libraries////////////////////////////////////////////////////////////////////////////////////////////
 import express from 'express';
-import path from  "path";
+import path from "path";
 import multer from 'multer';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import routes from '../routes/routes.js';
+import socket from 'socket.io';
 import db from "../models/db.js";
-var app = module.exports.app = express();
-var port = process.env.PORT || 9080;
-var server = app.listen(port);
 
- 
-var clientUrl = "http://localhost:32772";
-///////////////////////////////Enable cors rigin request///////////////////////////////////////////////////////////////////////
- app.use(cors());
- app.use(function(req, res, next) { //allow cross origin requests
-        res.setHeader("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
-        res.header("Access-Control-Allow-Origin", clientUrl);
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        next();
-    });
+class chatApp {
 
-//////////////////////////////// =static folder for images and attachments//////////////////////////
- app.use('/uploads/chatAttachments',express.static(__dirname+'/uploads/chatAttachments'));
- app.use('/uploads/profileImages',express.static(__dirname+'/uploads/profileImages'));
- app.use(express.static('../app'));
-app.use('/uploads',express.static(__dirname + '/uploads'));
-
- ////////////////////////////////Body parser///////////////////////////////////////////////////////////////////////////////////////////////////////
- app.use(bodyParser.urlencoded({ extended: false }));
- app.use(bodyParser.json());
+    constructor() {
+        this.app = express();
+        this.port = process.env.PORT || 9080;
+        this.server = this.app.listen(this.port);
+        this.clientUrl = "http://localhost:32772";
+    }
 
 
-//////////////////////////////////Upload Global Settings///////////////////////////////////////////////////////////////////////////////////////////////////
+    initialize() {
+        /*1-Enable cors rigin request*/
 
-    var storage = multer.diskStorage({ //multers disk storage settings
-        destination: function (req, file, cb) {
-            cb(null, '../uploads/chatAttachments/');
-        },
-        filename: function (req, file, cb) {
-            var datetimestamp = Date.now();
-             cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
-        }
-    });
+        this.enableCorsOrigin();
 
-    var upload = multer({ //multer settings
-                    storage: storage
-                }).single('file');
 
-    /** API path that will upload the files */
-    app.post('/upload', function(req, res) {
+        /*2-Open static Attachments and images Folder for accesibility and Upload Global Settings */
 
-        upload(req,res,function(err){
- 
-            if(err){
-                 res.json({error_code:1,err_desc:err,filePath:'dd'});
-                 return;
-            }
-             res.json({error_code:0,err_desc:null,filePath:req.file.path});
+        this.openUploadAttachmentsSettings();
+
+        /*3-Body parser Settings*/
+
+        this.parseRequestBody();
+
+        /*4-Real Time Messaging Setting using Socket IO Registeration*/
+
+        this.registerSocketIOSettings();
+
+        /*5-Routes Registeration*/
+
+        routes(this.app); //register the route
+
+
+        /*6-handle FallBack Requests*/
+
+        this.handleRequestsFallBack();
+    }
+
+  /*Enable cors rigin requests for pre-defined local host, it has to be chnaged on deployment*/
+    enableCorsOrigin() {
+
+        var clientUrl = this.clientUrl;
+        this.app.use(cors());
+        this.app.use(function (req, res, next) { //allow cross origin requests
+            res.setHeader("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
+            res.header("Access-Control-Allow-Origin", clientUrl);
+            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+            next();
         });
-    });
 
+    }
+
+        /* -Open static Attachments and images Folder for accesibility 
+           - Upload Global Settings and create a general upload route that takes folder name as param to save uploaded on in it       
+        */
+    openUploadAttachmentsSettings() {
+        //Open static Attachments and images Folder for accesibility
+        this.app.use('/uploads/chatAttachments', express.static(__dirname + '/uploads/chatAttachments'));
+        this.app.use('/uploads/profileImages', express.static(__dirname + '/uploads/profileImages'));
+        this.app.use(express.static('../app'));
+        this.app.use('/uploads', express.static(__dirname + '/uploads'));
+
+
+        // Upload Global Settings 
+        var storage = multer.diskStorage({ //multers disk storage settings
+            destination: function (req, file, cb) {
+                cb(null, '../uploads/chatAttachments/');
+            },
+            filename: function (req, file, cb) {
+                var datetimestamp = Date.now();
+                cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length - 1]);
+            }
+        });
+
+        var upload = multer({ //multer settings
+            storage: storage
+        }).single('file');
+
+        /**Register API path that will upload the files */
+        this.app.post('/upload', function (req, res) {
+            upload(req, res, function (err) {
+                if (err) {
+                    res.json({
+                        error_code: 1,
+                        err_desc: err,
+                        filePath: 'dd'
+                    });
+                    return;
+                }
+                res.json({
+                    error_code: 0,
+                    err_desc: null,
+                    filePath: req.file.path
+                });
+            });
+        });
+    }
+
+   /*Body parser Settings to render body as json format*/
+    parseRequestBody() {
+        this.app.use(bodyParser.urlencoded({
+            extended: false
+        }));
+        this.app.use(bodyParser.json());
+    }
+
+    /*Real Time Messaging Setting using Socket IO Registeration*/
+    registerSocketIOSettings() {
+        var io = socket.listen(this.server);
+         io.on('connection', function (client) {
+            client.on('disconnect', function () {});
+            client.on('chat', function (data) {
+                client.join(data.chatId);
+
+            });
+            client.on('toBackEnd', function (data) {
+                client.in(data.chatId).emit('message', data.data);
+            })
+        });
+    }
    
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /*handle FallBack Requests*/
+    handleRequestsFallBack() {
+        this.app.use(function (req, res) {
+            res.status(404).send({
+                url: req.originalUrl + ' not found'
+            })
+        });
+    }
+}
 
-/////////////////////////////////Start Socket IO Registeration///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////Initilize and configure node server/////////////////////////////////////
 
-var io = require('socket.io').listen(server);
-io.on('connection', function(client) {
-    client.on('disconnect', function() {
-     });
-    client.on('chat', function(data) {
-         client.join(data.chatId);
- 
-    });
-    client.on('toBackEnd', function(data) {
-    client.in(data.chatId).emit('message', data.data);
-    })
-});
-
-//////////////////////////////////End Socket IO Registeration////////////////////////////////////////////////////////////////////////////////////
-
-//////////////////////////////////Routes Registeration ///////////////////////////////////////////////////////////////////////////
-  routes(app); //register the route
-
-
-  ////////////////////////////////////handle FallBack Requests////////////////////////////////////////////////////////////////////
-  app.use(function (req, res) {
-      res.status(404).send({ url: req.originalUrl + ' not found' })
-  });
-  //app.listen(port);
-  /////////////////////////////////////log startup message///////////////////////
- 
+new chatApp().initialize();

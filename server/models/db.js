@@ -1,7 +1,8 @@
+import {dbConfig} from "../config/database.config.js";
+import mongoose from 'mongoose';
 
 
-var  config = require("../config/database.config.js") ;
- 
-var mongoose = require('mongoose');
+
+//connect to mongoose ORM For db communication
 mongoose.Promise = global.Promise;
-mongoose.connect(config.dbUrl);
+mongoose.connect(dbConfig.dbUrl);

@@ -1,14 +1,16 @@
 ﻿'use strict';
 
-var botconfig = require("../config/botConfig.js");
-var builder = require('botbuilder');
-var botbuilder_azure = require("botbuilder-azure");
-var reservationService = require("../services/reservationService.js");
+import  * as botSettings from "../config/botConfig.js";
+import * as builder from 'botbuilder'
+import * as botbuilder_azure from "botbuilder-azure";
+import reservationService from "../services/reservationService.js";
 const reservation = require("../models/reservationModel")
 
 ////////////////////////////////////////Bot builder/////////////////////////////////////////////////////////////////////////
 // Create chat connector for communicating with the Bot Framework Service
-var connector = new builder.ChatConnector({
+
+var botconfig=botSettings.botconfig;
+ var connector = new builder.ChatConnector({
     appId: botconfig.MicrosoftAppId,
     appPassword: botconfig.MicrosoftAppPassword,
     openIdMetadata: botconfig.BotOpenIdMetadata
@@ -121,7 +123,7 @@ function manageBotDialogs(bot) {
  
             var guestInfo = {
                 guestName: nameFullEntity ? nameFullEntity.entity : null,
-                guestEmail: emailFullEntity ? emailFullEntity.entity : contactFullEntity.entity
+                guestEmail: emailFullEntity ? emailFullEntity.entity : null
             };
              if (guestInfo.guestEmail != null && guestInfo.guestName != null) {
                 session.userData.guestInfo = guestInfo;

@@ -1,9 +1,9 @@
 const reservation = require("../models/reservationModel")
 
 var mongoose = require('mongoose');  
-var  repos = require("../Repositories/Repos.js") ;
+import  repos from "../Repositories/Repos.js" ;
  
-var reservationRepo = repos.reservationRepo;
+var reservationRepo = new repos().genericRepo("reservationModel");
 
 
 function getAllreservations() {

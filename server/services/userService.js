@@ -1,12 +1,11 @@
 
-
 const user = require("../models/userModel")
 
 var mongoose = require('mongoose');  
-var  repos = require("../Repositories/Repos.js") ;
+import repos  from "../Repositories/Repos.js" ;
 
 
-var userRepo = repos.userRepo;
+var userRepo = new repos().genericRepo("userModel");
 
 
   function getAllUsers() {

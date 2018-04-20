@@ -1,3 +1,4 @@
-module.exports = {
+export const dbConfig ={
+    
     dbUrl: "mongodb://localhost/chatdb"
 }

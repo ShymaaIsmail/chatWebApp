@@ -1,10 +1,10 @@
 
 const message = require("../models/messageModel")
   
-var  repos = require("../Repositories/Repos.js") ;
+import  repos from "../Repositories/Repos.js";
 
 
-var messageRepo = repos.messageRepo;
+var messageRepo = new repos().genericRepo("messageModel");
 
 
 function createMessage(newMessage){

@@ -1,18 +1,25 @@
 'use strict';
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+import mongoose from 'mongoose';
 
-
-var chatSchema = new Schema({
-  members: {//user ids of members
-    type:  [String],
-    required: 'Kindly enter the name of the user'
-  } ,
-
-  Created_date: {
-    type: Date,
-    default: Date.now
+  class Chat extends mongoose.Schema{
+ 
+    constructor() {
+      const chat = super({
+        members: { //user ids of members
+          type: [String],
+          required: 'Kindly enter the name of the user'
+        },
+  
+        Created_date: {
+          type: Date,
+          default: Date.now
+        }
+        
+      });
+   
+      return chat;
+    }
   }
-});
+  
 
-module.exports = mongoose.model('chats', chatSchema);;
+export default mongoose.model('chats', new Chat())

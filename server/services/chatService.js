@@ -1,16 +1,13 @@
 
 
-var unique = require('array-unique');
-var async = require('async');
+import unique from 'array-unique';
+import async from 'async';
+import chat from "../models/chatModel";
+import mongoose  from 'mongoose';  
+import  repos from "../Repositories/Repos.js" ;
 
-const chat = require("../models/chatModel")
-  
-
-var mongoose = require('mongoose');  
-var  repos = require("../Repositories/Repos.js") ;
-
-var chatRepo = repos.chatRepo;
-var userRepo = repos.userRepo;
+var chatRepo = new repos().genericRepo("chatModel");
+var userRepo = new repos().genericRepo("userModel");
 
 var  dtos = require("../models/dtos/chatDTO.js") ;
 

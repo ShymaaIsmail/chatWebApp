@@ -1,26 +1,32 @@
 ﻿'use strict';
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+import mongoose from 'mongoose';
 
+class Reservation extends mongoose.Schema {
 
-var reservationSchema = new Schema({
+    constructor() {
+        const reservation = super({
 
-    guestName: {
-        type: String,
-        required: 'Kindly enter the name of the guest'
-    },
+            guestName: {
+                type: String,
+                required: 'Kindly enter the name of the guest'
+            },
 
-    guestEmail: {
-        type: String,
-        required: 'Kindly enter the email of the guest'
-    },
-    reservationDate: {
-        type: Date 
-    },
-    Created_date: {
-        type: Date,
-        default: Date.now
+            guestEmail: {
+                type: String,
+                required: 'Kindly enter the email of the guest'
+            },
+            reservationDate: {
+                type: Date,
+                required: 'Kindly enter the prefered reservation date of the guest'
+            },
+            Created_date: {
+                type: Date,
+                default: Date.now
+            }
+        });
+        return reservation;
     }
-});
+}
 
-module.exports = mongoose.model('reservations', reservationSchema);;
+
+export default mongoose.model('reservations', new Reservation())

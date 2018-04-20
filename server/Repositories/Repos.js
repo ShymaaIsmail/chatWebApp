@@ -1,6 +1,6 @@
 'use strict';
 
-import repo from "mongoose-repository-pattern";
+const repo = require("mongoose-repository-pattern");
 import { dbConfig } from "../config/database.config.js";
 
 
@@ -15,4 +15,4 @@ export default class repos {
         var modelRepo = repo(model.default, dbConfig.dbUrl);
         return modelRepo;
     }
-}
+} 

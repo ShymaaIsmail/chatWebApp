@@ -1,111 +1,113 @@
-
-const user = require("../models/userModel")
-
-var mongoose = require('mongoose');  
-import repos  from "../Repositories/Repos.js" ;
-
-
-var userRepo = new repos().genericRepo("userModel");
-
-
-  function getAllUsers() {
- return userRepo.find().then(function(users){
-    return users;
-});
-};
+import mongoose from 'mongoose';
+import user from "../models/userModel";
+import repos from "../Repositories/Repos.js";
 
 
 
-  function getUsersByKeyWord(keyWord) {
+/*User is serviceis responsible for handling bussiness logic for  */
+class userService {
 
-  	var regularExpression = new RegExp(".*"+keyWord+".*","i"); 
-  return userRepo.find({"name": regularExpression}).then(function(users){
-    return users;
-});
-};
+  constructor() {
+    this.userRepo = new repos().genericRepo("userModel");
+  }
+
+  /**
+   * Find all users that their name contains this keyword
+   * @param {*} keyWord 
+   */
+  getUsersByKeyWord(keyWord) {
+
+    var regularExpression = new RegExp(".*" + keyWord + ".*", "i");
+    return this.userRepo.find({
+      "name": regularExpression
+    }).then(function (users) {
+      return users;
+    });
+  };
 
 
-function createUser(new_user) {
+
+  /**
+   * Create new user
+   * @param {*} new_user 
+   */
+  createUser(new_user) {
+
+    return this.userRepo.add(new_user).then(function (user) {
+      return user;
+
+    });
+
+  };
+
+
+
+  /**
+   * Authenticate user info
+   * @param {*} user_to_login 
+   */
+  loginUser(user_to_login) {
+
+    return this.userRepo.find({
+      name: user_to_login.name,
+      password: user_to_login.password
+    }, null, null, 1, null).then(function (loggedUser) {
+
+      return loggedUser;
+    });
+  };
+
+
+  /**
+   * 
+   * Get User Info by id
+   * @param {*} userId 
+   */
+  getUser(userId) {
+    return this.userRepo.findByID(userId).then(function (err, user) {
+      if (err)
+        return err;
+
+      return user;
+    });
+  };
+
+
   
-return userRepo.add(new_user).then(function(user) {
-   return user;
+  /**
+   * 
+   * Get User Info by id
+   * @param {*} userId 
+   */
+  getAllUsers() {
+    return this.userRepo.find({}).then(function (err, users) {
+      if (err)
+        return err;
 
-});
+      return users;
+    });
+  };
+  /*
+   * Take Array of users Ids and retrieve arry of objects for these users info.
+   * @param {*} arrUserIds 
+   */
+  getMultipleUsers(arrUserIds) {
+    var objecIdsType = [];
+    for (var i = arrUserIds.length - 1; i >= 0; i--) {
 
-};
+      var objectid = mongoose.Types.ObjectId.createFromHexString(arrUserIds[i]);
 
+      objecIdsType.push(objectid);
 
- function loginUser(user_to_login) {
-   
-return userRepo.find({name: user_to_login.name, password:user_to_login.password},null,null,1,null).then(function(loggedUser){
-   
-   return loggedUser;
-});
- };
+    }
+    return this.userRepo.find({
+      _id: objecIdsType
+    }).then(function (loggedUser) {
 
+      return loggedUser;
+    });
 
-function getUser(userId) {
-return  userRepo.findByID(userId).then(function(err, user) {
-    if (err)
-     return err;
-     
-     return user;
-  });
-};
-
-
-function getMultipleUsers(arrUserIds){
-  var objecIdsType=[];
-for (var i = arrUserIds.length - 1; i >= 0; i--) {
-   
-  var objectid=mongoose.Types.ObjectId.createFromHexString(arrUserIds[i]);
-  
-  objecIdsType.push(objectid);
- 
-}
-return userRepo.find({_id: objecIdsType}).then(function(loggedUser){
-   
-   return loggedUser;
-});
-
+  }
 }
 
-  function updateUser(userId, obj) {
- return userRepo.findOneAndUpdate({_id:userId}, obj, {new: true}, function(err, user) {
-    if (err)
-      return err;
-    return user;
-  });
-};
-
-
- function deleteUser(userId) {
-
- return userRepo.remove(userId).then(function(err, user) {
-    if (err)
-     return err;
-    return  'user successfully deleted';
-  });
-};
-
-
-
-module.exports={
-
-getAllUsers: function(){ return getAllUsers();},
-
-getMultipleUsers:function(arrUserIds){ return getMultipleUsers(arrUserIds);},
-
-getUsersByKeyWord: function(keyWord){ return getUsersByKeyWord(keyWord);},
-
-createUser: function(newUser){ return createUser(newUser);},
-
-loginUser: function(userToLogin){ return loginUser(userToLogin);},
-
-getUser: function(userId){ return getUser(userId);},
-
-updateUser: function(userId, obj){ return updateUser(userId, obj);},
-
-deleteUser: function(userId){ return deleteUser(userId);}
-
-}
+export default new userService();

@@ -38,7 +38,7 @@ class chatApp {
 
         /*5-Routes Registeration*/
 
-        routes(this.app); //register the route
+        new routes(this.app); //register the route
 
 
         /*6-handle FallBack Requests*/

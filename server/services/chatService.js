@@ -1,13 +1,13 @@
 import unique from 'array-unique';
 import async from 'async';
 import chat from "../models/chatModel";
-import genericrepos from "../Repositories/Repos.js";
+import repos from "../Repositories/Repos.js";
 import chatMapperDTO from "../models/dtos/chatDTOMapper.js";
 import userervice from "./userService.js";
 import messageService from "./messageService.js";
-var repos= new genericrepos();
-var chatRepo = repos.genericRepo("chatModel");
+ var chatRepo = new repos().getChatRepo();
  
+
 
 /*Chat is service is responsible for handling bussiness logic for  */
 class chatService {
@@ -143,10 +143,8 @@ class chatService {
       var contactUserID = chat.members.filter(function (value) {
         return value !== loggedUserID;
       });
-      mongoose.connection.close()
-
-      return userervice.getUser(contactUserID).then(function (user) {
-
+        return userervice.getUser(contactUserID).then(function (user) {
+ 
         return messageService.getMessagesByChatId(chatId).then(function (messages) {
 
 

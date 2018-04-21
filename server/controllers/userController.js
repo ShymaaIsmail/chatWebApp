@@ -4,7 +4,6 @@ import userService from "../services/userService.js";
 
 
 /*user Controller is responsible for handling incoming requestes related to user like get,post,put,delete  */
-
 class userController{    
 constructor() {
     

@@ -8,7 +8,7 @@ import reservation from "../models/reservationModel";
 class reservationService {
 
     constructor() {
-        this.reservationRepo = new repos().genericRepo("reservationModel");
+        this.reservationRepo = new repos().getResevationRepo();
 
     }
  

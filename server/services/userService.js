@@ -2,13 +2,14 @@ import mongoose from 'mongoose';
 import user from "../models/userModel";
 import repos from "../Repositories/Repos.js";
 
+import db from "../models/db.js";
 
 
 /*User is serviceis responsible for handling bussiness logic for  */
 class userService {
 
   constructor() {
-    this.userRepo = new repos().genericRepo("userModel");
+    this.userRepo = new repos().getUserRepo();
   }
 
   /**

@@ -6,7 +6,6 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import routes from '../routes/routes.js';
 import socket from 'socket.io';
-import db from "../models/db.js";
 
 class chatApp {
 

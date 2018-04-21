@@ -7,7 +7,7 @@ import repos from "../Repositories/Repos.js";
 class messageService {
 
   constructor() {
-    this.messageRepo = new repos().genericRepo("messageModel");
+    this.messageRepo = new repos().getMessageRepo();
 
   }
 

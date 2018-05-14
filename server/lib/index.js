@@ -64,6 +64,11 @@ class chatApp {
         */
     openUploadAttachmentsSettings() {
         //Open static Attachments and images Folder for accesibility
+        this.app.use('/lib/uploads/chatAttachments', express.static(__dirname + '/uploads/chatAttachments'));
+        this.app.use('/lib/uploads/profileImages', express.static(__dirname + '/uploads/profileImages'));
+        this.app.use(express.static('../app'));
+        this.app.use('/lib/uploads', express.static(__dirname + '/uploads'));
+
         this.app.use('/uploads/chatAttachments', express.static(__dirname + '/uploads/chatAttachments'));
         this.app.use('/uploads/profileImages', express.static(__dirname + '/uploads/profileImages'));
         this.app.use(express.static('../app'));
@@ -73,7 +78,7 @@ class chatApp {
         // Upload Global Settings 
         var storage = multer.diskStorage({ //multers disk storage settings
             destination: function (req, file, cb) {
-                cb(null, '../uploads/chatAttachments/');
+                cb(null, 'lib/uploads/chatAttachments/');
             },
             filename: function (req, file, cb) {
                 var datetimestamp = Date.now();

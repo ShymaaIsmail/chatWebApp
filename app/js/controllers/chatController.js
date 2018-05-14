@@ -98,7 +98,7 @@
             if (data.data.length > 0) {
                 $scope.ChatList = data.data;
                 if (IsActivate == true) {
-                    $scope.ActivateChat(data.data[0]);
+                  //  $scope.ActivateChat(data.data[0]);
                 }
 
             } else {
@@ -209,7 +209,7 @@
         $scope.GetChats(true);
         $scope.GetContacts();
 
-
+        $scope.openBotWebChat();
     }
 
     $scope.Initialize();

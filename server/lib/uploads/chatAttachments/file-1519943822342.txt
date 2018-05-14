@@ -1,0 +1,30 @@
+
+-Refactor legacy javascript and c# modules for a medium-scale project.
+
+-Fixing Issues and support for windows store application (محفظ الوحيين).
+
+-Implement product features & requirements for multipe projects in different bussiness areas.
+
+-Developing heavy coding tasks with applying SOLID principles.
+
+-Developing and executing unit tests.
+
+-Investigating and Implementing Azure CosmosDB using Mongo API with applying Repository Pattern.
+
+-Supports and develops juniors software developers 
+by providing advice and knowledge sharing within projects sprints 
+via Code Review and tasks explanation.
+
+Projects:
+-Flight search Engine.
+-Agile Consent.
+-Agile Ink.
+-Inventory System.
+-Student Affairs System.
+
+
+Technology:
+-Javascript,Jquery,Angular js.
+-C#, Web API, ASP.Net MVC.
+-SQL ,Entity Framework and Azure CosmosDB using Mongo API.
+-StimulSoft Reporting.

@@ -38,7 +38,7 @@
     "dto": "0.0.1",
     "express": "^4.16.2",
     "grep": "^0.1.0",
-    "loopback": "^3.18.2",
+    "loopback": "^3.25.1",
     "mongoose": "^5.0.6",
     "mongoose-repository": "^0.2.0",
     "mongoose-repository-pattern": "^1.0.0",

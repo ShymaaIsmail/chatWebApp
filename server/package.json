@@ -44,8 +44,8 @@
     "mongoose-repository-pattern": "^1.0.0",
     "multer": "^1.3.0",
     "ngrok": "^3.0.1",
-    "socket.io": "^2.0.4",
-    "socket.io-client": "^2.0.4",
+    "socket.io": "^2.5.0",
+    "socket.io-client": "^2.5.0",
     "socketio-auth": "^0.1.0",
     "touch": "^3.1.0"
   },
